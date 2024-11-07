@@ -33,7 +33,7 @@ const LoginModal = () => {
   if (isLogin) {
     return (
       <Dialog onOpenChange={setIsLogin} open={isLogin}>
-        <DialogContent className="flex p-0 border-none md:max-w-lg lg:max-w-3xl rounded-lg">
+        <DialogContent className="flex p-0 border-none md:max-w-lg lg:max-w-4xl rounded-lg">
           <div className="p-4 lg:p-6">
             <DialogTitle className="text-xl font-bold">
               Log in or sign up in seconds
@@ -72,7 +72,7 @@ const LoginModal = () => {
             alt="auth_dialog_canva"
             height={400}
             width={400}
-            className="hidden md:flex w-1/2 rounded-r-md"
+            className="hidden md:flex rounded-r-md"
           />
         </DialogContent>
       </Dialog>

@@ -1,16 +1,36 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePricingStore } from "@/store/PricingStore";
 
 import { useAuthActions } from "@convex-dev/auth/react";
-import { MdLogout } from "react-icons/md";
+import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { FaMoon } from "react-icons/fa";
+import { IoSunnyOutline } from "react-icons/io5";
+import { MdLogout, MdOutlinePriceCheck } from "react-icons/md";
 
 const UserButton = ({ image, name }: { image: string; name: string }) => {
+  const { setTheme, theme } = useTheme();
+  const { setIsPricing } = usePricingStore();
   const { signOut } = useAuthActions();
+  const router = useRouter();
+
+  const logout = () => {
+    router.push("/");
+    signOut();
+  };
 
   return (
     <DropdownMenu>
@@ -22,10 +42,48 @@ const UserButton = ({ image, name }: { image: string; name: string }) => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={() => signOut()}>
-          <MdLogout className="size-6 mr-2" />
-          Logout
+      <DropdownMenuContent className="w-40 dark:bg-dark z-[70]">
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            {theme === "light" ? (
+              <IoSunnyOutline className="mr-2" />
+            ) : (
+              <FaMoon className="mr-2" />
+            )}
+            Toggle theme
+          </DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent className="w-40 dark:bg-dark z-[70]">
+              <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem
+                checked={theme === "system"}
+                onCheckedChange={() => setTheme("system")}
+              >
+                System
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={theme === "dark"}
+                onCheckedChange={() => setTheme("dark")}
+              >
+                Dark
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={theme === "light"}
+                onCheckedChange={() => setTheme("light")}
+              >
+                Light
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
+        <DropdownMenuItem onClick={() => setIsPricing(true)}>
+          <MdOutlinePriceCheck />
+          Plans & Pricing
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>
+          <MdLogout />
+          Signout
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

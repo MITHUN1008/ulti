@@ -15,8 +15,8 @@ const PricingCard = ({
   return (
     <div
       className={cn(
-        "space-y-8 p-5 border rounded-lg w-[300px] text-black",
-        priceName === "Canva Free" ? "bg-gray-200" : "bg-primary/10"
+        "space-y-8 p-5 rounded-lg w-[300px] text-black",
+        priceName === "Canva Free" ? "bg-gray-100" : "bg-primary/10"
       )}
     >
       <div className="flex justify-between items-center">
@@ -28,7 +28,7 @@ const PricingCard = ({
         )}
       </div>
 
-      <p className="text-xl font-bold">{priceName}</p>
+      <p className="text-xl font-bold text-primary">{priceName}</p>
       <p className="text-muted-foreground text-xs mb-4">{description}</p>
       <Button className="w-full text-white">
         {priceName === "Canva Free" ? "Get Canva Free" : "Start free Pro trial"}

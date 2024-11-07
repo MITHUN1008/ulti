@@ -7,8 +7,8 @@ const Loading = () => {
         src={"/favicon.ico"}
         alt="logo"
         className="animate-bounce"
-        height={30}
-        width={30}
+        height={50}
+        width={50}
       />
     </div>
   );

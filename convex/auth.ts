@@ -1,6 +1,19 @@
-import { convexAuth } from "@convex-dev/auth/server";
 import GitHub from "@auth/core/providers/github";
 import Google from "@auth/core/providers/google";
+import { convexAuth } from "@convex-dev/auth/server";
+
 export const { auth, signIn, signOut, store } = convexAuth({
-  providers: [GitHub, Google],
+  providers: [
+    GitHub({
+      profile(githubProfile) {
+        return {
+          id: githubProfile.node_id,
+          name: githubProfile.name,
+          image: githubProfile.avatar_url,
+          email: githubProfile.email ? githubProfile.email : "",
+        };
+      },
+    }),
+    Google,
+  ],
 });

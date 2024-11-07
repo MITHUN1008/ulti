@@ -3,6 +3,7 @@
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 
 import { useEffect, useState } from "react";
+import { IoCloudOfflineOutline } from "react-icons/io5";
 
 export default function NetworkStatus() {
   const { isOnline, setIsOnline } = useNetworkStatusStore();
@@ -35,13 +36,18 @@ export default function NetworkStatus() {
   return (
     <>
       {!isOnline && (
-        <div className="flex justify-center items-center relative">
+        <div className="flex justify-center items-center">
           <div
             className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-2xl
-           shadow-lg dark:text-gray-400 dark:bg-gray-900 transition-transform absolute top-5"
+           shadow-lg dark:text-gray-400 dark:bg-black transition-transform fixed top-5 z-[70]"
           >
-            <div className="ml-3 text-sm font-normal">
-              {isOnline ? "You are Online" : "You are Offline"}
+            <div className="ml-3 text-sm font-normal flex items-center">
+              {!isOnline && (
+                <>
+                  <IoCloudOfflineOutline className="mr-2 size-4" />
+                  You are Offline
+                </>
+              )}
             </div>
           </div>
         </div>
