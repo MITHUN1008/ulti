@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
 import "./globals.css";
+// import "@uploadthing/react/styles.css";
 
 import { Modals } from "@/components/provider/Modal";
 import Toast from "@/components/theme/Toast";
@@ -27,7 +28,7 @@ export default function RootLayout({
           <ThemeProvider
             attribute="class"
             storageKey="canva"
-            defaultTheme="light"
+            defaultTheme="dark"
           >
             <NetworkStatus />
             <Toast />

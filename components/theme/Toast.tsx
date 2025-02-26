@@ -4,10 +4,14 @@ import { Toaster } from "sonner";
 import { useTheme } from "next-themes";
 
 const Toast = () => {
-  const { theme } = useTheme();
-  const currentTheme = theme === "dark" ? "dark" : "light";
+  const { resolvedTheme } = useTheme();
 
-  return <Toaster theme={currentTheme} position="top-right" />;
+  return (
+    <Toaster
+      theme={resolvedTheme as "light" | "dark" | "system" | undefined}
+      position="top-right"
+    />
+  );
 };
 
 export default Toast;

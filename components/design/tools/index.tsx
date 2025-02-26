@@ -72,7 +72,32 @@ export const Tools = ({ design }: ToolbarProps) => {
     }
   };
 
-  const duplicateActiveObject = () => {};
+  // duplicate
+  const duplicateActiveObject = async () => {
+    if (activeElement) {
+      const Duplicate = activeElement.clone();
+
+      // Update the state to trigger React reactivity
+      canvas?.add(await Duplicate);
+      setActiveElement(await Duplicate); // Clone to force update
+      canvas?.renderAll(); // Re-render the canvas
+    }
+  };
+
+  // bring forward
+  const bringForward = () => {
+    if (activeElement) {
+      canvas?.bringObjectForward(activeElement);
+      canvas?.renderAll(); // Re-render the canvas
+    }
+  };
+
+  // send backward
+  const sendBackward = () => {
+    if (activeElement) {
+      canvas?.sendObjectBackwards(activeElement);
+    }
+  };
 
   return (
     <div className="h-[56px] bg-white dark:bg-dark w-full flex items-center overflow-x-auto sticky top-[58px] z-[60] justify-center p-2 gap-x-2 transition-shadow duration-300 shadow-sm">
@@ -345,14 +370,14 @@ export const Tools = ({ design }: ToolbarProps) => {
 
       <div className="flex items-center h-full justify-center">
         <Hint label="Bring forward" side="bottom" sideOffset={5}>
-          <Button onClick={() => {}} size="icon" variant="ghost">
+          <Button onClick={bringForward} size="icon" variant="ghost">
             <ArrowUp className="size-4" />
           </Button>
         </Hint>
       </div>
       <div className="flex items-center h-full justify-center">
         <Hint label="Send backwards" side="bottom" sideOffset={5}>
-          <Button onClick={() => {}} size="icon" variant="ghost">
+          <Button onClick={sendBackward} size="icon" variant="ghost">
             <ArrowDown className="size-4" />
           </Button>
         </Hint>

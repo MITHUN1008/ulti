@@ -44,11 +44,11 @@ const RecentDesigns = () => {
     });
   };
 
-  return ( 
+  return (
     <div className="space-y-4 pt-10">
       <h1 className="font-bold text-xl">Recent Designs</h1>
       {designs?.map((design) => (
-        <div className="flex justify-between border-b p-3">
+        <div className="flex justify-between border-b p-3" key={design._id}>
           <Link
             href={`/design/${design._id}`}
             className="flex gap-2 items-center"

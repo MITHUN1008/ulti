@@ -15,6 +15,10 @@ const schema = defineSchema({
     category: v.string(),
     isPro: v.boolean(),
   }),
+  images: defineTable({
+    userId: v.string(),
+    images: v.array(v.string()),
+  }),
 });
 
 export default schema;

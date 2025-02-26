@@ -44,13 +44,9 @@ const UserButton = ({ image, name }: { image: string; name: string }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40 dark:bg-dark z-[70]">
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            {theme === "light" ? (
-              <IoSunnyOutline className="mr-2" />
-            ) : (
-              <FaMoon className="mr-2" />
-            )}
-            Toggle theme
+          <DropdownMenuSubTrigger className="font-">
+            {theme === "light" ? <IoSunnyOutline /> : <FaMoon />}
+            {theme}
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent className="w-40 dark:bg-dark z-[70]">

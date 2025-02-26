@@ -10,20 +10,19 @@ const Text = () => {
 
   type TextStyle = "heading" | "subheading" | "small";
 
+  // Set default options
+  let options: any = {
+    left: 100, // X position
+    top: 100, // Y position
+    fontFamily: "serif", // Font family
+    fill: "#333333", // Text color
+    selectable: true, // Allow selection and editing
+    fontStyle: "normal",
+    linethrough: false,
+    underline: false,
+    textAlign: "left",
+  };
   const addText = (text: string, style: TextStyle) => {
-    // Set default options
-    let options: any = {
-      left: 100, // X position
-      top: 100, // Y position
-      fontFamily: "serif", // Font family
-      fill: "#333333", // Text color
-      selectable: true, // Allow selection and editing
-      fontStyle: "normal",
-      linethrough: false,
-      underline: false,
-      textAlign: "left",
-    };
-
     // Modify options based on text style
     switch (style) {
       case "heading":
@@ -47,10 +46,19 @@ const Text = () => {
     }
   };
 
+  const textBox = () => {
+    const textObject = new fabric.Textbox("Added a Text box", options);
+    if (canvas) {
+      canvas.add(textObject); // Add the text object to the canvas
+      canvas.setActiveObject(textObject); // Set the text as the active object (optional)
+      canvas.renderAll(); // Re-render the canvas
+    }
+  };
+
   return (
     <div className="flex flex-col sa space-y-2">
       <ToolHeader title="Text" description="Addd text to your design" />
-      <Button>
+      <Button onClick={textBox}>
         <PiTextTBold className="mr-2" />
         Add Text Box
       </Button>
