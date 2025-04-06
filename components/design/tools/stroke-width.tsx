@@ -29,7 +29,7 @@ export const StrokeWidth = ({ onChange }: ColorPickerProps) => {
         description="Modify the stroke of your element"
       />
       <ScrollArea>
-        <div className="p-4 space-y-4 border-b">
+        <div className="p-4 space-y-4 border-b border-gray-400 dark:border-zinc-700">
           <Label className="text-sm">Stroke width</Label>
           <Slider
             defaultValue={[Array.isArray(value) ? value[0] : value || 0]}
@@ -47,7 +47,7 @@ export const StrokeWidth = ({ onChange }: ColorPickerProps) => {
             step={1}
           />
         </div>
-        <div className="p-4 space-y-4 border-b">
+        <div className="p-4 space-y-4">
           <Label className="text-sm">Stroke type</Label>
           <Button
             onClick={() => setProperty("strokeWidth")}

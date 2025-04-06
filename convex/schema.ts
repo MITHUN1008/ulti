@@ -14,6 +14,7 @@ const schema = defineSchema({
     isTemplate: v.boolean(),
     category: v.string(),
     isPro: v.boolean(),
+    published: v.optional(v.boolean()),
   }),
   images: defineTable({
     userId: v.string(),

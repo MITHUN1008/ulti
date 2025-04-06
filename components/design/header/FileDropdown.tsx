@@ -23,9 +23,9 @@ export function FileDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <p className="font-bold text-lg cursor-pointer">File</p>
+        <p className="font-bold cursor-pointer">File</p>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 dark:bg-dark">
+      <DropdownMenuContent className="w-56 dark:bg-dark z-[100] border-none">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -39,19 +39,19 @@ export function FileDropdown({
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <UserPlus />
-              <span>Invite users</span>
+              <UserPlus className="mr-2" />
+              <span>Export</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent className="w-56 dark:bg-dark">
+              <DropdownMenuSubContent className="w-56 dark:bg-dark border-none">
                 <DropdownMenuItem>
                   <MessageSquare />
-                  <span>Message</span>
+                  <span>JPG</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <PlusCircle />
-                  <span>More...</span>
+                  <span>PNG</span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>

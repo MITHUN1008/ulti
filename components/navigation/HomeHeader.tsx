@@ -13,7 +13,7 @@ const HomeHeader = () => {
   const { data } = useCurrentUser();
   // console.log(data);
   return (
-    <div className="flex justify-between dark:border-b p-3 shadow-lg sticky top-0 z-30 dark:bg-dark bg-white">
+    <div className="flex justify-between p-3 shadow-lg sticky top-0 z-30 dark:bg-dark bg-white">
       <Link href={"/"}>
         <Image src={"/logo.png"} alt="logo" height={100} width={100} />
       </Link>

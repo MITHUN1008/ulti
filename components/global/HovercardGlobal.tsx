@@ -20,7 +20,7 @@ const HovercardGlobal = ({
       <HoverCardTrigger>{trigger}</HoverCardTrigger>
       <HoverCardContent
         side={side}
-        className="dark:bg-darkHover h-fit w-[400px] z-[100] overflow-y-auto"
+        className="dark:bg-darkHover h-fit w-[330px] md:w-[370px] lg:w-[400px] z-[100] overflow-y-auto border-none"
       >
         {content}
       </HoverCardContent>

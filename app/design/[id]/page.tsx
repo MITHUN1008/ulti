@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import * as fabric from "fabric";
 import { useQuery } from "convex/react";
 import { redirect, useParams } from "next/navigation";
+import debounce from "lodash.debounce";
 
 import Footer from "@/components/design/Footer";
 import Header from "@/components/design/header";
@@ -13,6 +14,7 @@ import { Tools } from "@/components/design/tools";
 import { useActiveElementStore } from "@/store/ActiveEelement";
 import { useCanvas } from "@/store/useCanvas";
 import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useHistory } from "@/lib/use-history";
 
 const Design = () => {
   const { id } = useParams();
@@ -23,8 +25,17 @@ const Design = () => {
   const { canvas, setCanvas } = useCanvas();
   const { activeElement, setActiveElement, setActiveElements } =
     useActiveElementStore();
-  const { mutate, pending } = useApiMutation(api.design.updateDesign);
 
+  const { mutate, pending } = useApiMutation(api.design.updateDesign);
+  const debouncedSave = useCallback(
+    debounce((values: { json: string; height: number; width: number }) => {
+      mutate(values);
+    }, 500),
+    [mutate]
+  );
+  const { save } = useHistory({
+    saveCallback: debouncedSave,
+  });
   const width = design?.width;
   const height = design?.height;
   // console.log(width, height);
@@ -78,6 +89,9 @@ const Design = () => {
 
     FabricCanvas.on("selection:created", updateSelectedObjects);
     FabricCanvas.on("selection:updated", updateSelectedObjects);
+    FabricCanvas.on("object:added", () => save());
+    FabricCanvas.on("object:removed", () => save());
+    FabricCanvas.on("object:modified", () => save());
     FabricCanvas.on("selection:cleared", () => setActiveElements(null));
 
     FabricCanvas.on("selection:created", updateSelectedObject);
@@ -95,51 +109,24 @@ const Design = () => {
   handleStringChange("padding", 10);
   handleStringChange("transparentCorners", false);
 
-  const saveWork = async () => {
-    // if (!design?._id) return;
-    // const thumbnailUrl = canvas?.toDataURL({
-    //   format: "png",
-    //   quality: 0.8,
-    //   multiplier: 0.5,
-    // });
-    // await mutate({
-    //   id: design?._id,
-    //   json: canvas?.toJSON(),
-    //   thumbnailUrl: thumbnailUrl,
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-  };
-
-  // const [isCanvasLoaded, setIsCanvasLoaded] = useState(false);
-  // useEffect(() => {
-  //   if (canvas && design?.json && !isCanvasLoaded) {
-  //     canvas.loadFromJSON(design.json, () => {
-  //       // console.log("Canvas loaded from JSON string");
-  //       setIsCanvasLoaded(true); // Mark canvas as loaded
-  //     });
-  //     // Load JSON into the canvas
-  //   }
-  //   if (design?.json !== canvas?.toJSON()) {
-  //     saveWork();
-  //   }
-  //   canvas?.renderAll();
-  // }, [canvas, design?.json, isCanvasLoaded, canvas?.toJSON()]);
-
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <Header design={design} saving={false} />
-      <Sidebar />
-      {activeElement && <Tools design={design} />}
-      <div className="items-center justify-center flex flex-col">
-        <div
-          className="mt-10 shadow-lg bg-gray-100"
-          style={{ height: height, width: width }}
-        >
-          <canvas ref={canvasRef} width={width} height={height} />
-        </div>
+      <div className="absolute h-[calc(100%-70px)] w-full top-[80px] flex">
+        <Sidebar />
+
+        <main className="flex-1 overflow-auto relative flex flex-col">
+          {activeElement && <Tools />}
+
+          <div
+            className="flex-1 h-[calc(100%-124px)] bg-white"
+            style={{ height: 720, width: 1240 }}
+          >
+            <canvas ref={canvasRef} height={720} width={1240} />
+          </div>
+          <Footer />
+        </main>
       </div>
-      <Footer />
     </div>
   );
 };

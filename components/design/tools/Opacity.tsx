@@ -1,5 +1,5 @@
 import { Slider } from "@/components/ui/slider";
-import { ToolHeader } from "../../global/tool-header";
+import { ToolHeader } from "@/components/global/tool-header";
 
 interface OpacityPickerProps {
   value: number;

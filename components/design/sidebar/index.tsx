@@ -5,13 +5,16 @@ import Elements from "./Elements";
 import Text from "./Text";
 import Uploads from "./Uploads";
 import Draw from "./Draw";
-import Projects from "./Projects";
+import Setting from "./Setting";
 
 import { BiCategoryAlt } from "react-icons/bi";
-import { MdOutlineSpaceDashboard, MdOutlineDraw } from "react-icons/md";
+import {
+  MdOutlineSpaceDashboard,
+  MdOutlineDraw,
+  MdSettings,
+} from "react-icons/md";
 import { PiTextTBold } from "react-icons/pi";
 import { RiUploadCloudLine } from "react-icons/ri";
-import { IoFolderOutline } from "react-icons/io5";
 
 import { useCanvas } from "@/store/useCanvas";
 
@@ -19,7 +22,7 @@ const Sidebar = () => {
   const { canvas } = useCanvas();
 
   return (
-    <div className="fixed p-4 z-[100] dark:bg-dark items-center h-full">
+    <div className="sidebar-section">
       <div className="mt-14">
         <HovercardGlobal
           trigger={
@@ -49,8 +52,8 @@ const Sidebar = () => {
           side={"left"}
         />
         <HovercardGlobal
-          trigger={<Trigger Icon={IoFolderOutline} text={"Projects"} />}
-          content={<Projects />}
+          trigger={<Trigger Icon={MdSettings} text={"Setting"} />}
+          content={<Setting />}
           side={"left"}
         />
       </div>

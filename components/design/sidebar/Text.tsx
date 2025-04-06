@@ -22,6 +22,7 @@ const Text = () => {
     underline: false,
     textAlign: "left",
   };
+
   const addText = (text: string, style: TextStyle) => {
     // Modify options based on text style
     switch (style) {

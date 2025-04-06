@@ -9,7 +9,7 @@ const Offline = () => {
 
   if (!isOnline) {
     return (
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center z-[120]">
         <Image
           src={"/offline.png"}
           alt="offline-png"

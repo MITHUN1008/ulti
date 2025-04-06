@@ -28,6 +28,7 @@ export const createDesign = mutation({
       width: args.width,
       category: args.category,
       thumbnailUrl: "",
+      published: false,
     });
     return newDesignId;
   },
@@ -88,6 +89,25 @@ export const updateTitle = mutation({
     }
     const updateDesignId = await ctx.db.patch(args.id, {
       title: args.title,
+    });
+    return updateDesignId;
+  },
+});
+
+export const publish = mutation({
+  args: {
+    id: v.id("design"),
+    published: v.boolean(),
+    isPro: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) {
+      throw new Error("Unauthenticated");
+    }
+    const updateDesignId = await ctx.db.patch(args.id, {
+      published: args.published,
+      isPro: args.isPro,
     });
     return updateDesignId;
   },

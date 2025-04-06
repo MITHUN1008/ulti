@@ -9,4 +9,5 @@ interface designProps {
   width: number;
   isTemplate: boolean;
   isPro: boolean;
+  published: boolean;
 }

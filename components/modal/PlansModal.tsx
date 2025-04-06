@@ -15,7 +15,7 @@ const PlansModal = () => {
   if (isPricing) {
     return (
       <Dialog onOpenChange={setIsPricing} open={isPricing}>
-        <DialogContent className="sm:max-w-5xl overflow-y-auto">
+        <DialogContent className="sm:max-w-5xl overflow-y-auto border-none">
           <Pricing />
         </DialogContent>
       </Dialog>

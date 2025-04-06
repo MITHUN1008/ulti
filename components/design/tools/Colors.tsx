@@ -1,5 +1,5 @@
 import ColorPicker from "react-best-gradient-color-picker";
-import { ToolHeader } from "../../global/tool-header";
+import { ToolHeader } from "@/components/global/tool-header";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { useState } from "react";
