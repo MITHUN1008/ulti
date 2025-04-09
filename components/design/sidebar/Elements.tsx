@@ -12,9 +12,12 @@ import {
   TRIANGLE_OPTIONS,
 } from "@/type/types";
 import { ToolHeader } from "@/components/global/tool-header";
+import { useCanvas } from "@/store/useCanvas";
 
-const Elements = ({ canvas }: { canvas: fabric.Canvas | null }) => {
-  const addRect = (canvas?: fabric.Canvas) => {
+const Elements = () => {
+  const { canvas } = useCanvas();
+
+  const addRect = () => {
     const rect = new fabric.Rect({
       ...RECTANGLE_OPTIONS,
     });
@@ -23,7 +26,7 @@ const Elements = ({ canvas }: { canvas: fabric.Canvas | null }) => {
     canvas?.requestRenderAll();
   };
 
-  const addCirle = (canvas?: fabric.Canvas) => {
+  const addCirle = () => {
     const circle = new fabric.Circle({
       ...CIRCLE_OPTIONS,
     });
@@ -32,7 +35,7 @@ const Elements = ({ canvas }: { canvas: fabric.Canvas | null }) => {
     canvas?.requestRenderAll();
   };
 
-  const addTriangle = (canvas?: fabric.Canvas) => {
+  const addTriangle = () => {
     const Triangle = new fabric.Triangle({
       ...TRIANGLE_OPTIONS,
     });
@@ -41,7 +44,7 @@ const Elements = ({ canvas }: { canvas: fabric.Canvas | null }) => {
     canvas?.requestRenderAll();
   };
 
-  const addDiamond = (canvas?: fabric.Canvas) => {
+  const addDiamond = () => {
     const points = [
       { x: 0, y: -50 },
       { x: 50, y: 0 },
@@ -63,27 +66,15 @@ const Elements = ({ canvas }: { canvas: fabric.Canvas | null }) => {
         description="Addd elemnents to your design"
       />
       <div className="flex gap-2">
-        <ElementCard
-          onClick={() => canvas && addRect(canvas)}
-          Icon={BiRectangle}
-          Text="Rectangle"
-        />
-        <ElementCard
-          onClick={() => canvas && addCirle(canvas)}
-          Icon={FaRegCircle}
-          Text="Circle"
-        />
+        <ElementCard onClick={addRect} Icon={BiRectangle} Text="Rectangle" />
+        <ElementCard onClick={addCirle} Icon={FaRegCircle} Text="Circle" />
 
         <ElementCard
-          onClick={() => canvas && addTriangle(canvas)}
+          onClick={addTriangle}
           Icon={IoTriangleOutline}
           Text="Triangle"
         />
-        <ElementCard
-          onClick={() => canvas && addDiamond(canvas)}
-          Icon={LuDiamond}
-          Text="Diamond"
-        />
+        <ElementCard onClick={addDiamond} Icon={LuDiamond} Text="Diamond" />
       </div>
     </div>
   );

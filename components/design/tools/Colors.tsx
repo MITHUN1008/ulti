@@ -8,7 +8,7 @@ import { TFiller } from "fabric";
 interface ColorPickerProps {
   value?: string | TFiller;
   onChange: (property: keyof fabric.Object, value: string) => void;
-  property: keyof fabric.Object;
+  property?: keyof fabric.Object;
   title: string;
   desc: string;
 }
@@ -26,7 +26,7 @@ const Colors = ({
     setColor(color);
     // console.log(color);
 
-    onChange(property, color);
+    onChange(property!, color);
   };
   return (
     <>

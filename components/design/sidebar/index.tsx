@@ -16,11 +16,7 @@ import {
 import { PiTextTBold } from "react-icons/pi";
 import { RiUploadCloudLine } from "react-icons/ri";
 
-import { useCanvas } from "@/store/useCanvas";
-
 const Sidebar = () => {
-  const { canvas } = useCanvas();
-
   return (
     <div className="sidebar-section">
       <div className="mt-14">
@@ -33,7 +29,7 @@ const Sidebar = () => {
         />
         <HovercardGlobal
           trigger={<Trigger Icon={BiCategoryAlt} text={"Elements"} />}
-          content={<Elements canvas={canvas as any} />}
+          content={<Elements />}
           side={"left"}
         />
         <HovercardGlobal

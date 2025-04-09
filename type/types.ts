@@ -125,6 +125,18 @@ export const TRIANGLE_OPTIONS = {
   ry: 0, // Vertical corner radius
 };
 
+export const TEXT_OPTIONS = {
+  left: 100, // X position
+  top: 100, // Y position
+  fontFamily: "serif", // Font family
+  fill: "#333333", // Text color
+  selectable: true, // Allow selection and editing
+  fontStyle: "normal",
+  linethrough: false,
+  underline: false,
+  textAlign: "left",
+};
+
 export interface FabricCanvasJSON {
   version: string; // Fabric.js version
   objects: FabricObject[]; // Array of Fabric objects

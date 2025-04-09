@@ -59,9 +59,9 @@ const Design = () => {
     const FabricCanvas = new fabric.Canvas(canvasRef.current, {
       controlsAboveOverlay: true,
       preserveObjectStacking: true,
-      width: width,
-      height: height,
-      backgroundColor: "white",
+      width: 1240,
+      height: 720,
+      backgroundColor: "#f0f0f0",
       // freeDrawingCursor:
     });
 
@@ -118,11 +118,10 @@ const Design = () => {
         <main className="flex-1 overflow-auto relative flex flex-col">
           {activeElement && <Tools />}
 
-          <div
-            className="flex-1 h-[calc(100%-124px)] bg-white"
-            style={{ height: 720, width: 1240 }}
-          >
-            <canvas ref={canvasRef} height={720} width={1240} />
+          <div className="flex-1 h-[calc(100%-124px)]">
+            <div className="bg-white" style={{ height: 720, width: 1240 }}>
+              <canvas ref={canvasRef} height={720} width={1240} />
+            </div>
           </div>
           <Footer />
         </main>

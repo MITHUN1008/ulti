@@ -29,24 +29,6 @@ export const StrokeWidth = ({ onChange }: ColorPickerProps) => {
         description="Modify the stroke of your element"
       />
       <ScrollArea>
-        <div className="p-4 space-y-4 border-b border-gray-400 dark:border-zinc-700">
-          <Label className="text-sm">Stroke width</Label>
-          <Slider
-            defaultValue={[Array.isArray(value) ? value[0] : value || 0]}
-            onValueChange={(values) => {
-              if (property === "strokeWidth") {
-                if (activeElement) {
-                  activeElement.set("strokeDashArray", [0, 0]);
-                  canvas?.renderAll();
-                }
-                onChange(property, values[0]);
-              } else {
-                onChange(property, [values[0], values[0]]);
-              }
-            }}
-            step={1}
-          />
-        </div>
         <div className="p-4 space-y-4">
           <Label className="text-sm">Stroke type</Label>
           <Button
@@ -77,6 +59,24 @@ export const StrokeWidth = ({ onChange }: ColorPickerProps) => {
           >
             <div className="w-full border-black rounded-full border-4 border-dashed" />
           </Button>
+          <div className="p-4 space-y-4 border-t border-gray-400 dark:border-zinc-700">
+            <Label className="text-sm">Stroke width</Label>
+            <Slider
+              defaultValue={[Array.isArray(value) ? value[0] : value || 0]}
+              onValueChange={(values) => {
+                if (property === "strokeWidth") {
+                  if (activeElement) {
+                    activeElement.set("strokeDashArray", [0, 0]);
+                    canvas?.renderAll();
+                  }
+                  onChange(property, values[0]);
+                } else {
+                  onChange(property, [values[0], values[0]]);
+                }
+              }}
+              step={1}
+            />
+          </div>
         </div>
       </ScrollArea>
     </>

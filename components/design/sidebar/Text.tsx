@@ -3,6 +3,7 @@ import { PiTextTBold } from "react-icons/pi";
 
 import { useCanvas } from "@/store/useCanvas";
 import { Button } from "@/components/ui/button";
+import { TEXT_OPTIONS } from "@/type/types";
 import { ToolHeader } from "@/components/global/tool-header";
 
 const Text = () => {
@@ -10,45 +11,28 @@ const Text = () => {
 
   type TextStyle = "heading" | "subheading" | "small";
 
-  // Set default options
-  let options: any = {
-    left: 100, // X position
-    top: 100, // Y position
-    fontFamily: "serif", // Font family
-    fill: "#333333", // Text color
-    selectable: true, // Allow selection and editing
-    fontStyle: "normal",
-    linethrough: false,
-    underline: false,
-    textAlign: "left",
-  };
-
+  // addText
   const addText = (text: string, style: TextStyle) => {
-    // Modify options based on text style
-    switch (style) {
-      case "heading":
-        options = { ...options, fontSize: 36, fontWeight: 500 };
-        break;
-      case "subheading":
-        options = { ...options, fontSize: 24, fontWeight: 200 };
-        break;
-      case "small":
-        options = { ...options, fontSize: 14, fontWeight: 100 };
-        break;
-    }
+    const options = (values: { fontSize: number; fontWeight: number }) => {
+      const textObject = new fabric.IText(text, { ...TEXT_OPTIONS, ...values });
+      if (canvas) {
+        canvas.add(textObject);
+        canvas.setActiveObject(textObject);
+        canvas.renderAll();
+      }
+    };
 
-    // Create the text object with specified options
-    const textObject = new fabric.IText(text, options);
-
-    if (canvas) {
-      canvas.add(textObject); // Add the text object to the canvas
-      canvas.setActiveObject(textObject); // Set the text as the active object (optional)
-      canvas.renderAll(); // Re-render the canvas
+    if (style === "heading") {
+      options({ fontSize: 36, fontWeight: 500 });
+    } else if (style === "subheading") {
+      options({ fontSize: 24, fontWeight: 200 });
+    } else if (style === "small") {
+      options({ fontSize: 14, fontWeight: 100 });
     }
   };
 
   const textBox = () => {
-    const textObject = new fabric.Textbox("Added a Text box", options);
+    const textObject = new fabric.Textbox("Added a Text box", TEXT_OPTIONS);
     if (canvas) {
       canvas.add(textObject); // Add the text object to the canvas
       canvas.setActiveObject(textObject); // Set the text as the active object (optional)
