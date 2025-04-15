@@ -75,24 +75,9 @@ export const StrokeWidth = ({ onChange }: ColorPickerProps) => {
           <div className="p-4 space-y-4 border-t border-gray-400 dark:border-zinc-700">
             <Label className="text-sm">Stroke width</Label>
             <Slider
-<<<<<<< HEAD
               className="mt-2"
               defaultValue={[Array.isArray(value) ? value[0] : value || 0]}
               onValueChange={(values) => onWidthChange(values)}
-=======
-              defaultValue={[Array.isArray(value) ? value[0] : value || 0]}
-              onValueChange={(values) => {
-                if (property === "strokeWidth") {
-                  if (activeElement) {
-                    activeElement.set("strokeDashArray", [0, 0]);
-                    canvas?.renderAll();
-                  }
-                  onChange(property, values[0]);
-                } else {
-                  onChange(property, [values[0], values[0]]);
-                }
-              }}
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
               step={1}
             />
           </div>

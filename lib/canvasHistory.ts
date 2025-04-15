@@ -4,11 +4,7 @@ import { useEffect, useState } from "react";
 const useCanvasHistory = () => {
   const { canvas } = useCanvas();
 
-<<<<<<< HEAD
   const [canvasState, setCanvasState] = useState<string[]>([]);
-=======
-  const [canvasState, setCanvasState] = useState([]);
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
   const [currentStateIndex, setCurrentStateIndex] = useState(-1);
 
   useEffect(() => {
@@ -40,11 +36,8 @@ const useCanvasHistory = () => {
         canvas.renderAll();
         setCurrentStateIndex(newIndex);
       });
-<<<<<<< HEAD
       canvas?.renderAll();
       canvas?.requestRenderAll();
-=======
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
     }
   };
 
@@ -55,11 +48,8 @@ const useCanvasHistory = () => {
         canvas.renderAll();
         setCurrentStateIndex(newIndex);
       });
-<<<<<<< HEAD
       canvas?.renderAll();
       canvas?.requestRenderAll();
-=======
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
     }
   };
 

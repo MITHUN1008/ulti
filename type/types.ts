@@ -130,7 +130,6 @@ export const TEXT_OPTIONS = {
   underline: false,
   textAlign: "left",
 };
-<<<<<<< HEAD
 export const designTypes = [
   {
     icon: Youtube,
@@ -224,11 +223,3 @@ export const exportFormats = [
     icon: FileJson,
   },
 ];
-=======
-
-export interface FabricCanvasJSON {
-  version: string; // Fabric.js version
-  objects: FabricObject[]; // Array of Fabric objects
-  background?: string | fabric.Pattern | fabric.Gradient; // Background can be a color, pattern, or gradient
-}
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1

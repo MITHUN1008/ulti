@@ -30,7 +30,7 @@ export default function RootLayout({
             storageKey="canva"
             defaultTheme="dark"
           >
-            {/* <NetworkStatus /> */}
+            <NetworkStatus />
             <Toast />
             <ConvexClientProvider>{children}</ConvexClientProvider>
             <Modals />

@@ -62,21 +62,7 @@ export function FileDropdown() {
               <span>Export</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-<<<<<<< HEAD
               <Export />
-=======
-              <DropdownMenuSubContent className="w-56 dark:bg-dark border-none">
-                <DropdownMenuItem>
-                  <MessageSquare />
-                  <span>JPG</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <PlusCircle />
-                  <span>PNG</span>
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
             </DropdownMenuPortal>
           </DropdownMenuSub>
         </DropdownMenuGroup>

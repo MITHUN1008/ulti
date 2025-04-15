@@ -19,10 +19,7 @@ import Corners from "./Corners";
 import Group from "./Group";
 import ImageFilters from "./ImageFilters";
 import Text from "./Text";
-<<<<<<< HEAD
 import ImageRadius from "./ImageRadius";
-=======
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
 
 export const Tools = () => {
   const { setActiveElement, activeElement, activeElements, setActiveElements } =
@@ -119,11 +116,7 @@ export const Tools = () => {
 
   return (
     <ScrollArea className=" mb-4">
-<<<<<<< HEAD
       <div className="justify-center items-center flex space-x-2">
-=======
-      <div className="mx-[20px] flex space-x-2">
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         {/* Color */}
         <div className="flex items-center h-full justify-center">
           <HovercardGlobal
@@ -206,7 +199,6 @@ export const Tools = () => {
 
         {/* Add text */}
         {activeElement?.type === "textbox" && (
-<<<<<<< HEAD
           <Text updateSelectedText={updateSelectedObject} />
         )}
         {activeElement?.type === "i-text" && (
@@ -214,20 +206,10 @@ export const Tools = () => {
         )}
 
         {/* imge */}
-=======
-          <Text updateSelectedObject={updateSelectedObject} />
-        )}
-        {activeElement?.type === "i-text" && (
-          <Text updateSelectedObject={updateSelectedObject} />
-        )}
-
-        {/* image */}
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         {activeElement?.type === "image" && (
           <div className="flex items-center h-full justify-center">
             <HovercardGlobal
               trigger={
-<<<<<<< HEAD
                 <Hint label="Stroke width" side="bottom" sideOffset={5}>
                   <Button size="icon" variant="ghost">
                     <TbBorderCornerIos className="size-4" />
@@ -235,20 +217,10 @@ export const Tools = () => {
                 </Hint>
               }
               content={<ImageRadius />}
-=======
-                <Hint label="Filters" side="bottom" sideOffset={5}>
-                  <Button size="icon" variant="ghost">
-                    <TbColorFilter className="size-4" />
-                  </Button>
-                </Hint>
-              }
-              content={<ImageFilters />}
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
               side={"bottom"}
             />
           </div>
         )}
-<<<<<<< HEAD
 
         {activeElement?.type === "image" && (
           <>
@@ -274,8 +246,6 @@ export const Tools = () => {
             </div>
           </>
         )}
-=======
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         {/* Bring forward */}
         <div className="flex items-center h-full justify-center">
           <Hint label="Bring forward" side="bottom" sideOffset={5}>
@@ -319,11 +289,6 @@ export const Tools = () => {
                     : 100
                 }
                 property="opacity"
-<<<<<<< HEAD
-=======
-                title="Opacity"
-                desc="Change the opacity of the selected object"
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
               />
             }
             side={"bottom"}
@@ -332,10 +297,7 @@ export const Tools = () => {
         {/* Group */}
         {activeElement?.type === "group" && <Group />}
         {activeElements!.length > 1 && <Group />}
-<<<<<<< HEAD
         {/* delete */}
-=======
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         <div className="flex items-center h-full justify-center">
           <Hint label="Delete" side="bottom" sideOffset={5}>
             <Button

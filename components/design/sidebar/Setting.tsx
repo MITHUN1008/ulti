@@ -6,11 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCanvas } from "@/store/useCanvas";
 import Colors from "@/components/design/tools/Colors";
 
-<<<<<<< HEAD
 import { useState } from "react";
-=======
-import React, { useState } from "react";
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
 
 const Setting = () => {
   const { canvas } = useCanvas();

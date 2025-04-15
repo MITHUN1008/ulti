@@ -14,7 +14,6 @@ const RecentDesigns = () => {
   const { isOnline } = useNetworkStatusStore();
   const { mutate, pending } = useApiMutation(api.design.deleteDesign);
   const designs = useQuery(api.design.designs);
-  // console.log(designs?.length);
 
   if (!isOnline) {
     return null;
@@ -48,7 +47,10 @@ const RecentDesigns = () => {
     <div className="space-y-4 pt-10">
       <h1 className="font-bold text-xl">Recent Designs</h1>
       {designs?.map((design) => (
-        <div className="flex justify-between border-b p-3" key={design._id}>
+        <div
+          className="flex justify-between border border-gray-400 dark:border-zinc-700 rounded-md items-center p-3 mb-2"
+          key={design._id}
+        >
           <Link
             href={`/design/${design._id}`}
             className="flex gap-2 items-center"

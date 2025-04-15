@@ -34,17 +34,9 @@ const Design = () => {
     }, 500),
     [mutate]
   );
-<<<<<<< HEAD
 
   // const width = design?.width;
   // const height = design?.height;
-=======
-  const { save } = useHistory({
-    saveCallback: debouncedSave,
-  });
-  const width = design?.width;
-  const height = design?.height;
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
   // console.log(width, height);
   const handleStringChange = (
     property: keyof fabric.Object,
@@ -96,9 +88,6 @@ const Design = () => {
 
     FabricCanvas.on("selection:created", updateSelectedObjects);
     FabricCanvas.on("selection:updated", updateSelectedObjects);
-    FabricCanvas.on("object:added", () => save());
-    FabricCanvas.on("object:removed", () => save());
-    FabricCanvas.on("object:modified", () => save());
     FabricCanvas.on("selection:cleared", () => setActiveElements(null));
 
     FabricCanvas.on("selection:created", updateSelectedObject);
@@ -119,7 +108,6 @@ const Design = () => {
   return (
     <div className="h-full flex flex-col">
       <Header design={design} saving={false} />
-<<<<<<< HEAD
       <div className="relative t h-[calc(100%-70px)] w-full top-[80px] flex">
         <Sidebar />
         <main className="flex-1 overflow-auto relative flex flex-col">
@@ -140,20 +128,6 @@ const Design = () => {
           </div>
           {/* </div> */}
           {/* <Footer /> */}
-=======
-      <div className="absolute h-[calc(100%-70px)] w-full top-[80px] flex">
-        <Sidebar />
-
-        <main className="flex-1 overflow-auto relative flex flex-col">
-          {activeElement && <Tools />}
-
-          <div className="flex-1 h-[calc(100%-124px)]">
-            <div className="bg-white" style={{ height: 720, width: 1240 }}>
-              <canvas ref={canvasRef} height={720} width={1240} />
-            </div>
-          </div>
-          <Footer />
->>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         </main>
       </div>
     </div>
