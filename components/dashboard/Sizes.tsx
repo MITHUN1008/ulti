@@ -2,32 +2,63 @@
 
 import SizeCard from "@/components/dashboard/SizeCard";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import { designTypes } from "@/type/types";
 
-import { GrYoutube } from "react-icons/gr";
+import { api } from "@/convex/_generated/api";
+import { useApiMutation } from "@/hooks/use-api-mutation";
+import { Button } from "@/components/ui/button";
+
+import { useRouter } from "next/navigation";
+
 const Sizes = () => {
   const { isOnline } = useNetworkStatusStore();
+  const router = useRouter();
+  const { mutate, pending } = useApiMutation(api.design.createDesign);
 
-  if (!isOnline) {
-    return null;
-  }
+  // if (!isOnline) {
+  //   return null;
+  // }
   return (
-    <div className="mx-10 flex gap-2 h-[40px]">
-      <SizeCard
-        name="Youtube Thumbnail"
-        Icon={GrYoutube}
-        color="#b91c1c"
-        backgroundColor="#fee2e2"
-        height={720}
-        width={1280}
-      />
-      <SizeCard
-        name="Youtube Banner"
-        Icon={GrYoutube}
-        color="#b91c1c"
-        backgroundColor="#fee2e2"
-        height={2560}
-        width={1440}
-      />
+    <div className="grid grid-cols-3 md:grid-cols-4 lg:flex gap-2 h-full justify-center items-center w-full mt-4">
+      {designTypes.map((design, i) => {
+        const handleClick = async () => {
+          await mutate({
+            title: "untitled design",
+            json: { version: "6.4.3", objects: [], background: "white" },
+            height: design.height,
+            width: design.width,
+            isPro: false,
+            category: "",
+            published: false,
+          })
+            .then((id) => {
+              // console.log(id);
+              router.push(`/design/${id}`);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        };
+
+        return (
+          <Button
+            key={i}
+            className="cursor-pointer group items-center flex flex-col space-y-1 size-32 disabled:opacity-50"
+            onClick={handleClick}
+            disabled={pending}
+            variant={"ghost"}
+          >
+            <SizeCard
+              name={design.label}
+              Icon={design.icon}
+              color={design.bgColor}
+              backgroundColor="#fee2e2"
+              height={design.height}
+              width={design.width}
+            />
+          </Button>
+        );
+      })}
     </div>
   );
 };

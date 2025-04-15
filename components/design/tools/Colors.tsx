@@ -4,6 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { useState } from "react";
 import { TFiller } from "fabric";
+import * as fabric from "fabric";
 
 interface ColorPickerProps {
   value?: string | TFiller;

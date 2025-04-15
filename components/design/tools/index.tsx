@@ -3,6 +3,8 @@ import { BsBorderWidth } from "react-icons/bs";
 import { ArrowUp, ArrowDown, Copy, Trash } from "lucide-react";
 import { MdOpacity } from "react-icons/md";
 import { ITextProps } from "fabric";
+import * as fabric from "fabric";
+import { TbBackground } from "react-icons/tb";
 
 import { useCanvas } from "@/store/useCanvas";
 import { Button } from "@/components/ui/button";
@@ -17,6 +19,10 @@ import Corners from "./Corners";
 import Group from "./Group";
 import ImageFilters from "./ImageFilters";
 import Text from "./Text";
+<<<<<<< HEAD
+import ImageRadius from "./ImageRadius";
+=======
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
 
 export const Tools = () => {
   const { setActiveElement, activeElement, activeElements, setActiveElements } =
@@ -84,9 +90,40 @@ export const Tools = () => {
     }
   };
 
+  // This function sets the background image of the canvas to the currently selected image
+  const addImage = async () => {
+    if (!canvas) return;
+
+    // @ts-ignore
+    const imageUrl = activeElement?._originalElement.currentSrc;
+    const image = new Image();
+    image.src = imageUrl;
+
+    image.onload = () => {
+      const fabricImage = new fabric.FabricImage(image, {
+        // We'll scale it below after creating the object
+        originX: "left",
+        originY: "top",
+      });
+
+      // Scale image to fit the canvas size
+      const scaleX = canvas.width! / fabricImage.width!;
+      const scaleY = canvas.height! / fabricImage.height!;
+      fabricImage.scaleX = scaleX;
+      fabricImage.scaleY = scaleY;
+
+      canvas.backgroundImage = fabricImage;
+      canvas?.requestRenderAll();
+    };
+  };
+
   return (
     <ScrollArea className=" mb-4">
+<<<<<<< HEAD
+      <div className="justify-center items-center flex space-x-2">
+=======
       <div className="mx-[20px] flex space-x-2">
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         {/* Color */}
         <div className="flex items-center h-full justify-center">
           <HovercardGlobal
@@ -169,6 +206,15 @@ export const Tools = () => {
 
         {/* Add text */}
         {activeElement?.type === "textbox" && (
+<<<<<<< HEAD
+          <Text updateSelectedText={updateSelectedObject} />
+        )}
+        {activeElement?.type === "i-text" && (
+          <Text updateSelectedText={updateSelectedObject} />
+        )}
+
+        {/* imge */}
+=======
           <Text updateSelectedObject={updateSelectedObject} />
         )}
         {activeElement?.type === "i-text" && (
@@ -176,10 +222,20 @@ export const Tools = () => {
         )}
 
         {/* image */}
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         {activeElement?.type === "image" && (
           <div className="flex items-center h-full justify-center">
             <HovercardGlobal
               trigger={
+<<<<<<< HEAD
+                <Hint label="Stroke width" side="bottom" sideOffset={5}>
+                  <Button size="icon" variant="ghost">
+                    <TbBorderCornerIos className="size-4" />
+                  </Button>
+                </Hint>
+              }
+              content={<ImageRadius />}
+=======
                 <Hint label="Filters" side="bottom" sideOffset={5}>
                   <Button size="icon" variant="ghost">
                     <TbColorFilter className="size-4" />
@@ -187,10 +243,39 @@ export const Tools = () => {
                 </Hint>
               }
               content={<ImageFilters />}
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
               side={"bottom"}
             />
           </div>
         )}
+<<<<<<< HEAD
+
+        {activeElement?.type === "image" && (
+          <>
+            <div className="flex items-center h-full justify-center">
+              <HovercardGlobal
+                trigger={
+                  <Hint label="Filters" side="bottom" sideOffset={5}>
+                    <Button size="icon" variant="ghost">
+                      <TbColorFilter className="size-4" />
+                    </Button>
+                  </Hint>
+                }
+                content={<ImageFilters />}
+                side={"bottom"}
+              />
+            </div>
+            <div className="flex items-center h-full justify-center">
+              <Hint label="Image Background" side="bottom" sideOffset={5}>
+                <Button size="icon" variant="ghost" onClick={addImage}>
+                  <TbBackground className="size-4" />
+                </Button>
+              </Hint>
+            </div>
+          </>
+        )}
+=======
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         {/* Bring forward */}
         <div className="flex items-center h-full justify-center">
           <Hint label="Bring forward" side="bottom" sideOffset={5}>
@@ -234,8 +319,11 @@ export const Tools = () => {
                     : 100
                 }
                 property="opacity"
+<<<<<<< HEAD
+=======
                 title="Opacity"
                 desc="Change the opacity of the selected object"
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
               />
             }
             side={"bottom"}
@@ -244,6 +332,10 @@ export const Tools = () => {
         {/* Group */}
         {activeElement?.type === "group" && <Group />}
         {activeElements!.length > 1 && <Group />}
+<<<<<<< HEAD
+        {/* delete */}
+=======
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         <div className="flex items-center h-full justify-center">
           <Hint label="Delete" side="bottom" sideOffset={5}>
             <Button

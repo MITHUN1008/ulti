@@ -11,10 +11,13 @@ const schema = defineSchema({
     height: v.float64(),
     width: v.float64(),
     thumbnailUrl: v.optional(v.string()),
-    isTemplate: v.boolean(),
     category: v.string(),
     isPro: v.boolean(),
+<<<<<<< HEAD
+    published: v.boolean(),
+=======
     published: v.optional(v.boolean()),
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
   }),
   images: defineTable({
     userId: v.string(),

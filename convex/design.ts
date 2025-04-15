@@ -7,7 +7,7 @@ export const createDesign = mutation({
   args: {
     height: v.float64(),
     isPro: v.boolean(),
-    isTemplate: v.boolean(),
+    published: v.boolean(),
     json: v.any(),
     title: v.string(),
     width: v.float64(),
@@ -21,7 +21,7 @@ export const createDesign = mutation({
     const newDesignId = await ctx.db.insert("design", {
       height: args.height,
       isPro: args.isPro,
-      isTemplate: args.isTemplate,
+      published: args.published,
       json: args.json,
       title: args.title,
       userId: userId,

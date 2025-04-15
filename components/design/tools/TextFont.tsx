@@ -4,6 +4,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { fonts } from "@/type/types";
+
+import * as fabric from "fabric";
 import { ITextProps } from "fabric";
 
 const TextFont = ({

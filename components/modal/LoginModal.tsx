@@ -47,7 +47,7 @@ const LoginModal = () => {
                 className="w-full relative"
                 variant={"outline"}
                 onClick={() => onProviderSignUp("google")}
-                disabled={loading || !isOnline}
+                disabled={loading}
               >
                 <FcGoogle className="size-5 absolute top-2.5 left-2.5" />
                 Continue with Google
@@ -56,7 +56,7 @@ const LoginModal = () => {
                 className="w-full relative"
                 variant={"outline"}
                 onClick={() => onProviderSignUp("github")}
-                disabled={loading || !isOnline}
+                disabled={loading}
               >
                 <FaGithub className="size-5 absolute top-2.5 left-2.5" />
                 Continue with Github

@@ -1,15 +1,19 @@
 import { FabricObject } from "fabric";
 
-export const JSON_KEYS = [
-  "name",
-  "gradientAngle",
-  "selectable",
-  "hasControls",
-  "linkData",
-  "editable",
-  "extensionType",
-  "extension",
-];
+import {
+  Youtube,
+  Image,
+  Palette,
+  Heart,
+  Type,
+  Sticker,
+  Printer,
+  Sparkles,
+  Wand2,
+  FileIcon,
+  FileImage,
+  FileJson,
+} from "lucide-react";
 
 export const filters = [
   "none",
@@ -57,16 +61,6 @@ export const fonts = [
   "Lucida Sans Unicode",
   "Geneva",
   "Lucida Console",
-];
-
-export const selectionDependentTools = [
-  "fill",
-  "font",
-  "filter",
-  "opacity",
-  "remove-bg",
-  "stroke-color",
-  "stroke-width",
 ];
 
 export const FILL_COLOR = "rgba(0,0,0,1)";
@@ -136,9 +130,105 @@ export const TEXT_OPTIONS = {
   underline: false,
   textAlign: "left",
 };
+<<<<<<< HEAD
+export const designTypes = [
+  {
+    icon: Youtube,
+    label: "YouTube Thumbnail",
+    bgColor: "text-red-500",
+    width: 1240,
+    height: 720,
+  },
+  {
+    icon: Image,
+    label: "Logo Design",
+    bgColor: "text-purple-500",
+    width: 400,
+    height: 465,
+  },
+  {
+    icon: Palette,
+    label: "Color Palette",
+    bgColor: "text-blue-500",
+    width: 500,
+    height: 500,
+  },
+  {
+    icon: Type,
+    label: "Typography",
+    bgColor: "text-green-500",
+    width: 200,
+    height: 200,
+  },
+  {
+    icon: Heart,
+    label: "Social Media",
+    bgColor: "text-red-400",
+    width: 825,
+    height: 465,
+  },
+  {
+    icon: Sticker,
+    label: "Stickers",
+    bgColor: "text-pink-500",
+    width: 250,
+    height: 250,
+  },
+  {
+    icon: Printer,
+    label: "Printables",
+    bgColor: "text-purple-500",
+    width: 600,
+    height: 600,
+  },
+  {
+    icon: Sparkles,
+    label: "AI Background",
+    bgColor: "text-blue-600",
+    width: 825,
+    height: 465,
+  },
+  {
+    icon: Wand2,
+    label: "AI Image Gen",
+    bgColor: "text-violet-600",
+    width: 825,
+    height: 465,
+  },
+];
+
+export const exportFormats = [
+  {
+    id: "png",
+    name: "PNG Image",
+    icon: FileImage,
+  },
+  {
+    id: "jpeg",
+    name: "JPEG Image",
+    icon: FileIcon,
+  },
+  {
+    id: "webp",
+    name: "WEBP Image",
+    icon: FileIcon,
+  },
+  // {
+  //   id: "pdf",
+  //   name: "PDF Document",
+  //   icon: File,
+  // },
+  {
+    id: "json",
+    name: "JSON Template",
+    icon: FileJson,
+  },
+];
+=======
 
 export interface FabricCanvasJSON {
   version: string; // Fabric.js version
   objects: FabricObject[]; // Array of Fabric objects
   background?: string | fabric.Pattern | fabric.Gradient; // Background can be a color, pattern, or gradient
 }
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1

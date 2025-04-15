@@ -2,6 +2,7 @@ import { ToolHeader } from "@/components/global/tool-header";
 import { Slider } from "@/components/ui/slider";
 
 import { ITextProps } from "fabric";
+import * as fabric from "fabric";
 
 const Corners = ({
   onChange,

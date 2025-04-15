@@ -7,7 +7,10 @@ interface designProps {
   json: {};
   height: number;
   width: number;
-  isTemplate: boolean;
   isPro: boolean;
+<<<<<<< HEAD
+  published: boolean | undefined;
+=======
   published: boolean;
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
 }

@@ -35,7 +35,7 @@ const UserButton = ({ image, name }: { image: string; name: string }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar className="size-12 rounded-lg">
+        <Avatar className="size-12 items-center rounded-lg">
           <AvatarImage src={image} alt={name?.charAt(0).toUpperCase()} />
           <AvatarFallback className="rounded-lg">
             {name?.charAt(0).toUpperCase()}

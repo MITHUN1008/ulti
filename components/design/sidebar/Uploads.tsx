@@ -59,9 +59,37 @@ const Uploads = () => {
   };
 
   // addToCanvas
+  // const addToCanvas = (image: string) => {
+  //   fabric.FabricImage.fromURL(image, { crossOrigin: "anonymous" }).then(
+  //     (img) => {
+  //       canvas?.add(img);
+  //       canvas?.setActiveObject(img);
+  //       canvas?.renderAll();
+  //     }
+  //   );
+  // };
+
   const addToCanvas = (image: string) => {
     fabric.FabricImage.fromURL(image, { crossOrigin: "anonymous" }).then(
       (img) => {
+<<<<<<< HEAD
+        // Make sure image has loaded dimensions
+        const clipPath = new fabric.Rect({
+          width: img.width!,
+          height: img.height!,
+          rx: 0,
+          ry: 0,
+          originX: "center",
+          originY: "center",
+        });
+
+        img.set({
+          clipPath,
+          originX: "center",
+          originY: "center",
+        });
+=======
+>>>>>>> 07eb10da9bf9fb4e10a3f252977cdd3d721286f1
         canvas?.add(img);
         canvas?.setActiveObject(img);
         canvas?.renderAll();

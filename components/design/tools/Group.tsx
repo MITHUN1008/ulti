@@ -33,8 +33,8 @@ const Group = () => {
       //   console.log(items);
       group.remove();
       canvas?.remove(activeObject);
-      for (let i = 0; i < items.length; i++) {
-        canvas?.add(items[i]);
+      for (const item of items) {
+        canvas?.add(item);
         canvas?.item(canvas?.size() - 1)?.set("hasControls", true);
       }
 
