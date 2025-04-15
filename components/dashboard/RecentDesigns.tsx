@@ -53,10 +53,10 @@ const RecentDesigns = () => {
         >
           <Link
             href={`/design/${design._id}`}
-            className="flex gap-2 items-center"
+            className="flex gap-4 items-center"
           >
             {!design.thumbnailUrl ? (
-              <div className="size-14 rounded-md bg-white" />
+              <div className="size-14 rounded-md bg-white border border-gray-400 dark:border-zinc-700" />
             ) : (
               <img
                 src={design.thumbnailUrl}
@@ -64,7 +64,12 @@ const RecentDesigns = () => {
                 className="size-14 rounded-md"
               />
             )}
-            <p>{design.title}</p>
+            <p className="text-lightBlue text-lg font-semibold">
+              {design.title}
+            </p>
+            <p className="text-sm hidden md:flex">
+              {design.width} x {design.height} px
+            </p>
           </Link>
           <Moment fromNow>{design._creationTime}</Moment>
           <Button

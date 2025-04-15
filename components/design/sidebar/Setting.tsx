@@ -5,17 +5,22 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCanvas } from "@/store/useCanvas";
 import Colors from "@/components/design/tools/Colors";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 
 import { useState } from "react";
-import * as fabric from "fabric";
 import { parseLinearGradientString } from "@/lib/utils";
+import { api } from "@/convex/_generated/api";
 
-const Setting = () => {
+const Setting = ({ design }: { design: designProps | undefined }) => {
   const { canvas } = useCanvas();
   if (!canvas) return null;
+  if (!design) return null;
 
-  const [width, setWidth] = useState<number>(1240);
-  const [height, setHeight] = useState<number>(720);
+  const [width, setWidth] = useState<number>(design.width);
+  const [height, setHeight] = useState<number>(design.height);
+
+  const { mutate, pending } = useApiMutation(api.design.updateSize);
+
   // choose color
   const chooseColor = (property: string, value: string) => {
     // console.log(value);
@@ -51,11 +56,18 @@ const Setting = () => {
     }
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(width, height);
     canvas.width = width!;
     canvas.height = height!;
+    await mutate({
+      id: design?._id,
+      height: height,
+      width: width,
+    }).catch((error) => {
+      console.log(error);
+    });
     canvas.renderAll();
   };
 
@@ -70,6 +82,7 @@ const Setting = () => {
           <div className="space-y-2">
             <Label>Height</Label>
             <Input
+              disabled={pending}
               placeholder="Height"
               value={height}
               required
@@ -81,6 +94,7 @@ const Setting = () => {
           <div className="space-y-2">
             <Label>Width</Label>
             <Input
+              disabled={pending}
               placeholder="Width"
               value={width}
               type="number"
@@ -89,7 +103,7 @@ const Setting = () => {
               onChange={(e) => setWidth(Number(e.target.value))}
             />
           </div>
-          <Button className="w-full" type="submit">
+          <Button className="w-full" type="submit" disabled={pending}>
             Resize
           </Button>
         </form>

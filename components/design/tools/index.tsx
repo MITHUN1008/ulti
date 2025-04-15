@@ -5,6 +5,7 @@ import { MdOpacity } from "react-icons/md";
 import { ITextProps } from "fabric";
 import * as fabric from "fabric";
 import { TbBackground } from "react-icons/tb";
+import { FaLock, FaLockOpen } from "react-icons/fa6";
 
 import { useCanvas } from "@/store/useCanvas";
 import { Button } from "@/components/ui/button";
@@ -53,13 +54,9 @@ export const Tools = () => {
       }
 
       // Handle gradient fill specifically
-      if (
-        property === "fill" &&
-        typeof value === "string" &&
-        value.includes("linear")
-      ) {
+      if (typeof value === "string" && value.includes("linear")) {
         const gradient = parseLinearGradientString(value, canvas); // call your parser
-        activeElement.set({ fill: gradient });
+        activeElement.set({ [property]: gradient });
       } else {
         activeElement.set({ [property]: value });
       }
@@ -118,7 +115,8 @@ export const Tools = () => {
 
           canvas.backgroundImage = img;
           canvas?.requestRenderAll();
-          canvas.renderAll();
+          canvas?.discardActiveObject(); // Deselect if needed
+          // canvas.renderAll();
         })
         .catch((e) => {
           console.error("Error loading image", e);
@@ -126,9 +124,39 @@ export const Tools = () => {
     };
   };
 
+  // lock active object
+  const lockObject = () => {
+    if (activeElement?.evented) {
+      activeElement.set({ evented: false });
+      canvas?.discardActiveObject(); // Deselect if needed
+      canvas?.renderAll();
+      // setActiveElement(activeElement); // update state
+    } else {
+      activeElement?.set({ evented: true });
+      canvas?.discardActiveObject(); // Deselect if needed
+      canvas?.renderAll();
+      // setActiveElement(activeElement); // update state
+    }
+  };
   return (
     <ScrollArea className=" mb-4">
       <div className="justify-center items-center flex space-x-2">
+        {/* lock unlock */}
+        <div className="flex items-center h-full justify-center">
+          <Hint
+            label={activeElement?.evented ? "lock" : "unlock"}
+            side="bottom"
+            sideOffset={5}
+          >
+            <Button onClick={lockObject} size="icon" variant="ghost">
+              {activeElement?.evented ? (
+                <FaLock className="size-4" />
+              ) : (
+                <FaLockOpen className="size-4" />
+              )}
+            </Button>
+          </Hint>
+        </div>
         {/* Color */}
         {activeElement?.type !== "image" && (
           <div className="flex items-center h-full justify-center">

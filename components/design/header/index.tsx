@@ -14,6 +14,7 @@ import { FaSpinner } from "react-icons/fa6";
 import { useCallback, useState } from "react";
 import debounce from "lodash.debounce";
 import { MdRedo, MdUndo } from "react-icons/md";
+import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 
 const Header = ({
   design,
@@ -26,6 +27,7 @@ const Header = ({
   const [open, setOpen] = useState(false);
   const { mutate, pending } = useApiMutation(api.design.updateTitle);
   const { canRedo, canUndo, redo, undo } = useCanvasHistory();
+  const { isOnline } = useNetworkStatusStore();
 
   const debouncedSave = useCallback(
     debounce((values: { json: string; height: number; width: number }) => {
@@ -69,7 +71,9 @@ const Header = ({
           {saving && <FaSpinner className="animate-spin size-5" />}
         </div>
         <div className="flex gap-2 items-center">
-          <Button onClick={() => setOpen(true)}>Publish</Button>
+          <Button onClick={() => setOpen(true)} disabled={!isOnline}>
+            Publish
+          </Button>
           <DesignInput name={design?.title} id={design?._id} />
           {data && <UserButton image={data.image!} name={data.name!} />}
         </div>

@@ -28,17 +28,21 @@ export const createDesign = mutation({
       width: args.width,
       category: args.category,
       thumbnailUrl: "",
-      published: false,
     });
     return newDesignId;
   },
 });
 
 export const designs = query(async (ctx) => {
-  //   console.log("Write and test your query function here!");
-  const designs = ctx.db.query("design").collect();
-  // console.log(designs);
-  return designs;
+  const userId = await getAuthUserId(ctx);
+  if (userId === null) {
+    throw new Error("Unauthenticated");
+  }
+  const design = await ctx.db
+    .query("design")
+    .filter((q) => q.eq(q.field("userId"), userId))
+    .collect();
+  return design;
 });
 
 // Return the last 100 tasks in a given task list.
@@ -110,6 +114,25 @@ export const publish = mutation({
       isPro: args.isPro,
     });
     return updateDesignId;
+  },
+});
+
+export const updateSize = mutation({
+  args: {
+    id: v.id("design"),
+    height: v.float64(),
+    width: v.float64(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) {
+      throw new Error("Unauthenticated");
+    }
+    const updateDesignSize = await ctx.db.patch(args.id, {
+      height: args.height,
+      width: args.width,
+    });
+    return updateDesignSize;
   },
 });
 

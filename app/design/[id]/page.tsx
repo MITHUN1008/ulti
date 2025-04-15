@@ -6,7 +6,6 @@ import { useQuery } from "convex/react";
 import { redirect, useParams } from "next/navigation";
 import debounce from "lodash.debounce";
 
-import Footer from "@/components/design/Footer";
 import Header from "@/components/design/header";
 import Sidebar from "@/components/design/sidebar";
 import { api } from "@/convex/_generated/api";
@@ -14,18 +13,24 @@ import { Tools } from "@/components/design/tools";
 import { useActiveElementStore } from "@/store/ActiveEelement";
 import { useCanvas } from "@/store/useCanvas";
 import { useApiMutation } from "@/hooks/use-api-mutation";
-import { useHistory } from "@/lib/use-history";
+import { useCurrentUser } from "@/fetch/useCurrentUser";
+import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 
 const Design = () => {
   const { id } = useParams();
+  const { data } = useCurrentUser();
+
   // const design = {};
   const design = useQuery(api.design.getDesign, { id: id as string });
+  if (!data) redirect("/");
+
   if (design === null) redirect("/dashboard");
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { canvas, setCanvas } = useCanvas();
   const { activeElement, setActiveElement, setActiveElements } =
     useActiveElementStore();
+  const { isOnline } = useNetworkStatusStore();
 
   const { mutate, pending } = useApiMutation(api.design.updateDesign);
   const debouncedSave = useCallback(
@@ -105,29 +110,28 @@ const Design = () => {
   handleStringChange("padding", 10);
   handleStringChange("transparentCorners", false);
 
+  useEffect(() => {
+    if (!canvas) return;
+    canvas.selection = isOnline;
+    canvas.getObjects().forEach((object) => {
+      object.selectable = isOnline;
+      object.evented = isOnline;
+    });
+  }, [isOnline]);
+
   return (
     <div className="h-full flex flex-col">
       <Header design={design} saving={false} />
       <div className="relative t h-[calc(100%-70px)] w-full top-[80px] flex">
-        <Sidebar />
+        {isOnline && <Sidebar design={design} />}
         <main className="flex-1 overflow-auto relative flex flex-col">
-          {activeElement && <Tools />}
+          {activeElement && isOnline && <Tools />}
           <div
-            className="flex-1 h-[calc(100%-124px)] bg-white"
+            className="flex-1 h-[calc(100%-124px)] bg-white ml-4"
             style={{ height: height, width: width }}
           >
-            {/* <div
-              className=" z-[60]"
-            > */}
-            <canvas
-              ref={canvasRef}
-              height={height}
-              width={width}
-              className="z-[]60"
-            />
+            <canvas ref={canvasRef} height={height} width={width} />
           </div>
-          {/* </div> */}
-          {/* <Footer /> */}
         </main>
       </div>
     </div>

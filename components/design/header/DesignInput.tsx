@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { api } from "@/convex/_generated/api";
+import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 
 const DesignInput = ({
   name,
@@ -14,6 +15,8 @@ const DesignInput = ({
   if (!name) return null;
   const [title, setTitle] = useState(name);
   const { mutate, pending } = useApiMutation(api.design.updateTitle);
+  const { isOnline } = useNetworkStatusStore();
+
   //   console.log(title, name);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +37,7 @@ const DesignInput = ({
         placeholder="Design Name"
         required
         className="bg-transparent border-none font-bold"
-        disabled={pending}
+        disabled={pending || !isOnline}
       />
     </form>
   );

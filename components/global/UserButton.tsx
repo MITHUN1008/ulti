@@ -42,14 +42,18 @@ const UserButton = ({ image, name }: { image: string; name: string }) => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-40 dark:bg-dark z-[70]">
+      <DropdownMenuContent className="w-40 dark:bg-dark z-[70] border-none">
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="font-">
-            {theme === "light" ? <IoSunnyOutline /> : <FaMoon />}
-            {theme}
+            {theme === "light" ? (
+              <IoSunnyOutline className="mr-2" />
+            ) : (
+              <FaMoon className="mr-2" />
+            )}
+            <span className="capitalize">{theme}</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            <DropdownMenuSubContent className="w-40 dark:bg-dark z-[70]">
+            <DropdownMenuSubContent className="w-40 dark:bg-dark z-[70] border-none">
               <DropdownMenuLabel>Appearance</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem

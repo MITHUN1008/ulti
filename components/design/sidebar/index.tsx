@@ -16,7 +16,7 @@ import {
 import { PiTextTBold } from "react-icons/pi";
 import { RiUploadCloudLine } from "react-icons/ri";
 
-const Sidebar = () => {
+const Sidebar = ({ design }: { design: designProps | undefined }) => {
   return (
     <div className="sidebar-section">
       <div className="mt-14">
@@ -49,7 +49,7 @@ const Sidebar = () => {
         />
         <HovercardGlobal
           trigger={<Trigger Icon={MdSettings} text={"Setting"} />}
-          content={<Setting />}
+          content={<Setting design={design} />}
           side={"left"}
         />
       </div>
