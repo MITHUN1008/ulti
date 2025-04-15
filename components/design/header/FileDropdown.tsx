@@ -15,8 +15,8 @@ import {
 import Export from "./Export";
 import { useCanvas } from "@/store/useCanvas";
 
-import { ChangeEventHandler, useRef } from "react";
-
+import { useRef } from "react";
+import { CiImport, CiExport } from "react-icons/ci";
 export function FileDropdown() {
   const filePickerRef = useRef<HTMLInputElement | null>(null);
   const { canvas } = useCanvas();
@@ -43,14 +43,7 @@ export function FileDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User />
-            <input
-              type="file"
-              // ref={filePickerRef}
-              // hidden
-              accept="image/*"
-              onChange={loadJson}
-            />
+            <CiImport />
             <span>Load JSON</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -58,7 +51,7 @@ export function FileDropdown() {
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <UserPlus className="mr-2" />
+              <CiExport className="mr-2" />
               <span>Export</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>

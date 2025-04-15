@@ -70,8 +70,8 @@ const Uploads = () => {
   // };
 
   const addToCanvas = (image: string) => {
-    fabric.FabricImage.fromURL(image, { crossOrigin: "anonymous" }).then(
-      (img) => {
+    fabric.FabricImage.fromURL(image, { crossOrigin: "anonymous" })
+      .then((img) => {
         // Make sure image has loaded dimensions
         const clipPath = new fabric.Rect({
           width: img.width!,
@@ -90,8 +90,10 @@ const Uploads = () => {
         canvas?.add(img);
         canvas?.setActiveObject(img);
         canvas?.renderAll();
-      }
-    );
+      })
+      .catch((e) => {
+        console.error("Error loading image", e);
+      });
   };
 
   return (

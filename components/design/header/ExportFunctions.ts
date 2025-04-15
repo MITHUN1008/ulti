@@ -1,5 +1,6 @@
 import { downloadFile, transformToText } from "@/lib/utils";
 
+import * as fabric from "fabric";
 import { Canvas } from "fabric";
 
 export async function exportAsJson(canvas: Canvas | null, name: string) {
@@ -24,13 +25,15 @@ export function exportAsPng(canvas: Canvas | null, name: string) {
   try {
     const dataUrl = canvas.toDataURL({
       format: "png",
-      quality: 1,
+      // quality: 1,
       multiplier: 1,
-      enableRetinaScaling: true,
+      // enableRetinaScaling: true,
     });
+    console.log("dataurl", dataUrl);
 
     downloadFile(dataUrl, "png", name);
   } catch (e) {
+    console.log("Error exporting PNG:", e);
     return false;
   }
 }

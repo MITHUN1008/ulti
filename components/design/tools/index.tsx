@@ -97,20 +97,23 @@ export const Tools = () => {
     image.src = imageUrl;
 
     image.onload = () => {
-      const fabricImage = new fabric.FabricImage(image, {
-        // We'll scale it below after creating the object
-        originX: "left",
-        originY: "top",
-      });
+      fabric.FabricImage.fromURL(imageUrl, {
+        crossOrigin: "anonymous",
+      })
+        .then((img) => {
+          // Scale image to fit the canvas size
+          const scaleX = canvas.width! / img.width!;
+          const scaleY = canvas.height! / img.height!;
+          img.scaleX = scaleX;
+          img.scaleY = scaleY;
 
-      // Scale image to fit the canvas size
-      const scaleX = canvas.width! / fabricImage.width!;
-      const scaleY = canvas.height! / fabricImage.height!;
-      fabricImage.scaleX = scaleX;
-      fabricImage.scaleY = scaleY;
-
-      canvas.backgroundImage = fabricImage;
-      canvas?.requestRenderAll();
+          canvas.backgroundImage = img;
+          canvas?.requestRenderAll();
+          canvas.renderAll();
+        })
+        .catch((e) => {
+          console.error("Error loading image", e);
+        });
     };
   };
 
@@ -118,27 +121,29 @@ export const Tools = () => {
     <ScrollArea className=" mb-4">
       <div className="justify-center items-center flex space-x-2">
         {/* Color */}
-        <div className="flex items-center h-full justify-center">
-          <HovercardGlobal
-            trigger={
-              <Hint label="Color" side="bottom" sideOffset={5}>
-                <Button size="icon" variant="ghost">
-                  <div className="rounded-sm size-5 border-2 bg-white" />
-                </Button>
-              </Hint>
-            }
-            content={
-              <Colors
-                onChange={updateSelectedObject}
-                value={activeElement?.fill || "#000000"}
-                property="fill"
-                title="Fill color"
-                desc="Add Fill color to your element"
-              />
-            }
-            side={"bottom"}
-          />
-        </div>
+        {activeElement?.type !== "image" && (
+          <div className="flex items-center h-full justify-center">
+            <HovercardGlobal
+              trigger={
+                <Hint label="Color" side="bottom" sideOffset={5}>
+                  <Button size="icon" variant="ghost">
+                    <div className="rounded-sm size-5 border-2 bg-white" />
+                  </Button>
+                </Hint>
+              }
+              content={
+                <Colors
+                  onChange={updateSelectedObject}
+                  value={activeElement?.fill || "#000000"}
+                  property="fill"
+                  title="Fill color"
+                  desc="Add Fill color to your element"
+                />
+              }
+              side={"bottom"}
+            />
+          </div>
+        )}
         {/* Stroke color */}
         <div className="flex items-center h-full justify-center">
           <HovercardGlobal
@@ -207,23 +212,20 @@ export const Tools = () => {
 
         {/* imge */}
         {activeElement?.type === "image" && (
-          <div className="flex items-center h-full justify-center">
-            <HovercardGlobal
-              trigger={
-                <Hint label="Stroke width" side="bottom" sideOffset={5}>
-                  <Button size="icon" variant="ghost">
-                    <TbBorderCornerIos className="size-4" />
-                  </Button>
-                </Hint>
-              }
-              content={<ImageRadius />}
-              side={"bottom"}
-            />
-          </div>
-        )}
-
-        {activeElement?.type === "image" && (
           <>
+            <div className="flex items-center h-full justify-center">
+              <HovercardGlobal
+                trigger={
+                  <Hint label="Stroke width" side="bottom" sideOffset={5}>
+                    <Button size="icon" variant="ghost">
+                      <TbBorderCornerIos className="size-4" />
+                    </Button>
+                  </Hint>
+                }
+                content={<ImageRadius />}
+                side={"bottom"}
+              />
+            </div>
             <div className="flex items-center h-full justify-center">
               <HovercardGlobal
                 trigger={
@@ -237,13 +239,16 @@ export const Tools = () => {
                 side={"bottom"}
               />
             </div>
-            <div className="flex items-center h-full justify-center">
-              <Hint label="Image Background" side="bottom" sideOffset={5}>
-                <Button size="icon" variant="ghost" onClick={addImage}>
-                  <TbBackground className="size-4" />
-                </Button>
-              </Hint>
-            </div>
+            {/* Background */}
+            {canvas?.backgroundImage === undefined && (
+              <div className="flex items-center h-full justify-center">
+                <Hint label="Image Background" side="bottom" sideOffset={5}>
+                  <Button size="icon" variant="ghost" onClick={addImage}>
+                    <TbBackground className="size-4" />
+                  </Button>
+                </Hint>
+              </div>
+            )}
           </>
         )}
         {/* Bring forward */}

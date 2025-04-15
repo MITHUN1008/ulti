@@ -39,9 +39,15 @@ const Header = ({
     <>
       <PublishModal open={open} setOpen={setOpen} design={design} />
       <div className="design-header">
-        <div className="flex text-center gap-4">
+        <div className="flex text-center gap-4 items-center">
           <Link href={"/"}>
-            <Image src={"/logo.png"} alt="logo" height={80} width={80} />
+            <Image
+              src={"/logo.png"}
+              alt="logo"
+              height={80}
+              width={80}
+              className="size-auto"
+            />
           </Link>
           <FileDropdown />
           <Button
