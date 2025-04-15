@@ -58,17 +58,6 @@ const Uploads = () => {
     });
   };
 
-  // addToCanvas
-  // const addToCanvas = (image: string) => {
-  //   fabric.FabricImage.fromURL(image, { crossOrigin: "anonymous" }).then(
-  //     (img) => {
-  //       canvas?.add(img);
-  //       canvas?.setActiveObject(img);
-  //       canvas?.renderAll();
-  //     }
-  //   );
-  // };
-
   const addToCanvas = (image: string) => {
     fabric.FabricImage.fromURL(image, { crossOrigin: "anonymous" })
       .then((img) => {
@@ -128,26 +117,32 @@ const Uploads = () => {
           title="Images"
           description="Choose an image to add to your canvas"
         />
-        <div className="image-grid">
-          {userImages?.images.map((image) => (
-            <div key={image} className="relative cursor-pointer hover:p-1">
-              <img
-                src={image}
-                alt="image"
-                onClick={() => addToCanvas(image)}
-                className="h-fit border dark:border-gray-500 rounded-md"
-              />
-              <Button
-                variant="destructive"
-                onClick={() => handleDelete(image)}
-                className="absolute top-2 right-2 size-8"
-                disabled={pending || updatePending || deletePending}
-              >
-                <MdDelete className="size-8" />
-              </Button>
-            </div>
-          ))}
-        </div>
+        {userImages?.images.length === 0 ? (
+          <h1 className="flex justify-center items-center text-xl text-primary font-bold">
+            No Images to Show
+          </h1>
+        ) : (
+          <div className="image-grid">
+            {userImages?.images.map((image) => (
+              <div key={image} className="relative cursor-pointer hover:p-1">
+                <img
+                  src={image}
+                  alt="image"
+                  onClick={() => addToCanvas(image)}
+                  className="h-fit border dark:border-gray-500 rounded-md"
+                />
+                <Button
+                  variant="destructive"
+                  onClick={() => handleDelete(image)}
+                  className="absolute top-2 right-2 size-8"
+                  disabled={pending || updatePending || deletePending}
+                >
+                  <MdDelete className="size-8" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </ScrollArea>
   );

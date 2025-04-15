@@ -7,6 +7,8 @@ import { useCanvas } from "@/store/useCanvas";
 import Colors from "@/components/design/tools/Colors";
 
 import { useState } from "react";
+import * as fabric from "fabric";
+import { parseLinearGradientString } from "@/lib/utils";
 
 const Setting = () => {
   const { canvas } = useCanvas();
@@ -17,8 +19,36 @@ const Setting = () => {
   // choose color
   const chooseColor = (property: string, value: string) => {
     // console.log(value);
-    canvas.backgroundColor = value;
-    canvas.renderAll();
+    if (!value) return;
+    if (value.includes("linear")) {
+      // linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)
+      // const angleMatch = value.match(/linear-gradient\((\d+)deg/);
+      // const angle = angleMatch ? parseInt(angleMatch[1]) : 0;
+      // const colorStopMatches = [
+      //   ...value.matchAll(/(rgba?\([^)]+\)|#[0-9a-fA-F]+)\s+([\d.]+)%/g),
+      // ];
+      // const colorStops = colorStopMatches.map(([_, color, offset]) => ({
+      //   color,
+      //   offset: parseFloat(offset) / 100,
+      // }));
+      // const gradient = new fabric.Gradient({
+      //   type: "linear",
+      //   coords: {
+      //     x1: 0,
+      //     y1: 0,
+      //     x2: canvas.width!,
+      //     y2: canvas.height!,
+      //   },
+      //   colorStops,
+      // });
+      // canvas.backgroundColor = gradient;
+      const newValue = parseLinearGradientString(value, canvas);
+      canvas.backgroundColor = newValue;
+      canvas.renderAll();
+    } else {
+      canvas.backgroundColor = value;
+      canvas.renderAll();
+    }
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

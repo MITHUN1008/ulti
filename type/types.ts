@@ -1,5 +1,3 @@
-import { FabricObject } from "fabric";
-
 import {
   Youtube,
   Image,
@@ -10,7 +8,6 @@ import {
   Printer,
   Sparkles,
   Wand2,
-  FileIcon,
   FileImage,
   FileJson,
 } from "lucide-react";
@@ -205,12 +202,12 @@ export const exportFormats = [
   {
     id: "jpeg",
     name: "JPEG Image",
-    icon: FileIcon,
+    icon: FileImage,
   },
   {
     id: "webp",
     name: "WEBP Image",
-    icon: FileIcon,
+    icon: FileImage,
   },
   // {
   //   id: "pdf",

@@ -68,7 +68,7 @@ const Header = ({
           </Button>
           {saving && <FaSpinner className="animate-spin size-5" />}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <Button onClick={() => setOpen(true)}>Publish</Button>
           <DesignInput name={design?.title} id={design?._id} />
           {data && <UserButton image={data.image!} name={data.name!} />}

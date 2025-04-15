@@ -20,6 +20,7 @@ import Group from "./Group";
 import ImageFilters from "./ImageFilters";
 import Text from "./Text";
 import ImageRadius from "./ImageRadius";
+import { parseLinearGradientString } from "@/lib/utils";
 
 export const Tools = () => {
   const { setActiveElement, activeElement, activeElements, setActiveElements } =
@@ -43,20 +44,28 @@ export const Tools = () => {
 
   // Function to handle property updates
   const updateSelectedObject = (
-    property: keyof fabric.Object | keyof ITextProps | "rect",
+    property: keyof fabric.Object | keyof ITextProps | "rect" | "gradient",
     value: string | number | boolean | number[] | undefined
   ) => {
-    if (activeElement) {
+    if (activeElement && canvas) {
       if (activeElement.type === "rect" && property === "rect") {
         activeElement.set({ rx: value, ry: value });
       }
 
-      activeElement.set(property, value);
+      // Handle gradient fill specifically
+      if (
+        property === "fill" &&
+        typeof value === "string" &&
+        value.includes("linear")
+      ) {
+        const gradient = parseLinearGradientString(value, canvas); // call your parser
+        activeElement.set({ fill: gradient });
+      } else {
+        activeElement.set({ [property]: value });
+      }
 
-      canvas?.renderAll(); // Re-render the canvas
-
-      // Update the state to trigger React reactivity
-      setActiveElement(activeElement); // Clone to force update
+      canvas.renderAll();
+      setActiveElement(activeElement); // force reactivity
     }
   };
 

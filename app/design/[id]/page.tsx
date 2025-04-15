@@ -35,8 +35,8 @@ const Design = () => {
     [mutate]
   );
 
-  // const width = design?.width;
-  // const height = design?.height;
+  const width = design?.width;
+  const height = design?.height;
   // console.log(width, height);
   const handleStringChange = (
     property: keyof fabric.Object,
@@ -58,8 +58,8 @@ const Design = () => {
     const FabricCanvas = new fabric.Canvas(canvasRef.current, {
       controlsAboveOverlay: true,
       preserveObjectStacking: true,
-      width: 1240,
-      height: 720,
+      width: width,
+      height: height,
       backgroundColor: "#f0f0f0",
       // freeDrawingCursor:
     });
@@ -97,7 +97,7 @@ const Design = () => {
     return () => {
       FabricCanvas.dispose();
     };
-  }, []);
+  }, [width, height]);
 
   handleStringChange("cornerColor", "#8B3DFF");
   handleStringChange("cornerStyle", "circle");
@@ -114,15 +114,15 @@ const Design = () => {
           {activeElement && <Tools />}
           <div
             className="flex-1 h-[calc(100%-124px)] bg-white"
-            style={{ height: 720, width: 1240 }}
+            style={{ height: height, width: width }}
           >
             {/* <div
               className=" z-[60]"
             > */}
             <canvas
               ref={canvasRef}
-              height={720}
-              width={1240}
+              height={height}
+              width={width}
               className="z-[]60"
             />
           </div>
