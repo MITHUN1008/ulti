@@ -7,14 +7,16 @@ import useCanvasHistory from "@/lib/canvasHistory";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { api } from "@/convex/_generated/api";
 import PublishModal from "@/components/modal/PublishModal";
+import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import { useCanvas } from "@/store/useCanvas";
 
 import Image from "next/image";
 import Link from "next/link";
 import { FaSpinner } from "react-icons/fa6";
-import { useCallback, useState } from "react";
-import debounce from "lodash.debounce";
+import { useEffect, useState } from "react";
+import { debounce } from "lodash";
+import { ImSpinner6 } from "react-icons/im";
 import { MdRedo, MdUndo } from "react-icons/md";
-import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 
 const Header = ({
   design,
@@ -25,16 +27,39 @@ const Header = ({
 }) => {
   const { data } = useCurrentUser();
   const [open, setOpen] = useState(false);
-  const { mutate, pending } = useApiMutation(api.design.updateTitle);
+  const { mutate, pending } = useApiMutation(api.design.updateDesign);
   const { canRedo, canUndo, redo, undo } = useCanvasHistory();
   const { isOnline } = useNetworkStatusStore();
+  const { canvas } = useCanvas();
 
-  const debouncedSave = useCallback(
-    debounce((values: { json: string; height: number; width: number }) => {
-      mutate(values);
-    }, 500),
-    [mutate]
-  );
+  const save = async () => {
+    if (!canvas) return;
+    await mutate({
+      id: design?._id,
+      json: canvas.toJSON(),
+      thumbnailUrl: canvas.toDataURL({ format: "png", multiplier: 1 }),
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+
+  useEffect(() => {
+    if (!canvas) return;
+    const debouncedSave = debounce(() => {
+      save();
+    }, 500);
+    // Listen to changes
+    canvas.on("object:modified", debouncedSave);
+    canvas.on("object:added", debouncedSave);
+    canvas.on("object:removed", debouncedSave);
+
+    // Cleanup on unmount
+    return () => {
+      canvas.off("object:modified", debouncedSave);
+      canvas.off("object:added", debouncedSave);
+      canvas.off("object:removed", debouncedSave);
+    };
+  }, [canvas]);
 
   // console.log(canvasHistory);
   return (
@@ -51,6 +76,7 @@ const Header = ({
               className="size-auto"
             />
           </Link>
+          {pending && <ImSpinner6 className="size-7 animate-spin" />}
           <FileDropdown />
           <Button
             onClick={() => undo()}

@@ -22,7 +22,7 @@ const Design = () => {
 
   // const design = {};
   const design = useQuery(api.design.getDesign, { id: id as string });
-  if (!data) redirect("/");
+  // if (!data) redirect("/");
 
   if (design === null) redirect("/dashboard");
 
@@ -31,14 +31,6 @@ const Design = () => {
   const { activeElement, setActiveElement, setActiveElements } =
     useActiveElementStore();
   const { isOnline } = useNetworkStatusStore();
-
-  const { mutate, pending } = useApiMutation(api.design.updateDesign);
-  const debouncedSave = useCallback(
-    debounce((values: { json: string; height: number; width: number }) => {
-      mutate(values);
-    }, 500),
-    [mutate]
-  );
 
   const width = design?.width;
   const height = design?.height;
@@ -68,6 +60,10 @@ const Design = () => {
       backgroundColor: "#f0f0f0",
       // freeDrawingCursor:
     });
+
+    FabricCanvas.loadFromJSON(design?.json).then((canvas) =>
+      canvas.requestRenderAll()
+    );
 
     setCanvas(FabricCanvas);
 
