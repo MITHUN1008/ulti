@@ -45,6 +45,16 @@ export const designs = query(async (ctx) => {
   return design;
 });
 
+export const publishedDesigns = query(async (ctx) => {
+  //   console.log("Write and test your query function here!");
+  const designs = ctx.db
+    .query("design")
+    .filter((q) => q.eq(q.field("published"), true))
+    .collect();
+  // console.log(designs);
+  return designs;
+});
+
 // Return the last 100 tasks in a given task list.
 export const getDesign = query({
   args: { id: v.string() },

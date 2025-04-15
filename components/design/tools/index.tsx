@@ -142,21 +142,23 @@ export const Tools = () => {
     <ScrollArea className=" mb-4">
       <div className="justify-center items-center flex space-x-2">
         {/* lock unlock */}
-        <div className="flex items-center h-full justify-center">
-          <Hint
-            label={activeElement?.evented ? "lock" : "unlock"}
-            side="bottom"
-            sideOffset={5}
-          >
-            <Button onClick={lockObject} size="icon" variant="ghost">
-              {activeElement?.evented ? (
-                <FaLock className="size-4" />
-              ) : (
-                <FaLockOpen className="size-4" />
-              )}
-            </Button>
-          </Hint>
-        </div>
+        {activeElements!.length === 1 && (
+          <div className="flex items-center h-full justify-center">
+            <Hint
+              label={activeElement?.evented ? "lock" : "unlock"}
+              side="bottom"
+              sideOffset={5}
+            >
+              <Button onClick={lockObject} size="icon" variant="ghost">
+                {activeElement?.evented ? (
+                  <FaLock className="size-4" />
+                ) : (
+                  <FaLockOpen className="size-4" />
+                )}
+              </Button>
+            </Hint>
+          </div>
+        )}
         {/* Color */}
         {activeElement?.type !== "image" && (
           <div className="flex items-center h-full justify-center">

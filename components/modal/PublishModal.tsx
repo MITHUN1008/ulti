@@ -16,25 +16,26 @@ const PublishModal = ({
   setOpen: (open: boolean) => void;
   design: designProps | null | undefined;
 }) => {
-  const [pro, setIspro] = useState(design && design.isPro);
-  const [publish, setIsPublished] = useState(design && design.published);
+  const [pro, setIspro] = useState(design?.isPro);
+  const [publish, setIsPublished] = useState(design?.published);
 
   const { mutate, pending } = useApiMutation(api.design.publish);
   //   console.log(title, name);
 
   const handlePublish = async () => {
-    // console.log(title, name);
+    console.log(publish, pro);
     await mutate({
       id: design?._id,
-      publish: publish,
+      published: publish,
       isPro: pro,
     })
+      .then(() => {
+        toast.success("Published");
+        setOpen(false);
+      })
       .catch((error) => {
         toast.error("Something Went Wrong");
         console.log(error);
-      })
-      .then(() => {
-        toast.success("Published");
       });
   };
 

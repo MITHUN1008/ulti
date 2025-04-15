@@ -3,12 +3,12 @@
 import SizeCard from "@/components/dashboard/SizeCard";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { designTypes } from "@/type/types";
-
 import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { Button } from "@/components/ui/button";
 
 import { useRouter } from "next/navigation";
+import * as fabric from "fabric";
 
 const Sizes = () => {
   const { isOnline } = useNetworkStatusStore();
@@ -24,7 +24,11 @@ const Sizes = () => {
         const handleClick = async () => {
           await mutate({
             title: "untitled design",
-            json: { version: "6.4.3", objects: [], background: "white" },
+            json: {
+              version: fabric.version,
+              objects: [],
+              background: "#f0f0f0",
+            },
             height: design.height,
             width: design.width,
             isPro: false,
