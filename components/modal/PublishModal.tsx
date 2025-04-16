@@ -4,7 +4,7 @@ import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { Button } from "@/components/ui/button";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const PublishModal = ({
@@ -16,14 +16,16 @@ const PublishModal = ({
   setOpen: (open: boolean) => void;
   design: designProps | null | undefined;
 }) => {
+  if (!design) return null;
   const [pro, setIspro] = useState(design?.isPro);
   const [publish, setIsPublished] = useState(design?.published);
 
   const { mutate, pending } = useApiMutation(api.design.publish);
   //   console.log(title, name);
+  useEffect(() => {}, [publish, pro]);
 
   const handlePublish = async () => {
-    console.log(publish, pro);
+    // console.log(publish, pro);
     await mutate({
       id: design?._id,
       published: publish,

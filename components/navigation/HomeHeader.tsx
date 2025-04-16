@@ -7,6 +7,8 @@ import UserButton from "@/components/global/UserButton";
 
 import Image from "next/image";
 import Link from "next/link";
+import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
+import { ImSpinner6 } from "react-icons/im";
 
 const HomeHeader = () => {
   const { setIsLogin } = useLoginStore();
@@ -24,22 +26,24 @@ const HomeHeader = () => {
         />
       </Link>
       <div className="flex gap-2">
-        {data ? (
-          <UserButton image={data.image!} name={data.name!} />
-        ) : (
-          <>
-            <Button
-              variant={"outline"}
-              onClick={() => setIsLogin(true)}
-              className="hover:dark:bg-dark dark:bg-dark/10"
-            >
-              Login
-            </Button>
-            <Button className="text-white" onClick={() => setIsLogin(true)}>
-              Sign up
-            </Button>
-          </>
-        )}
+        <AuthLoading>
+          <ImSpinner6 className="size-7 animate-spin" />
+        </AuthLoading>
+        <Unauthenticated>
+          <Button
+            variant={"outline"}
+            onClick={() => setIsLogin(true)}
+            className="hover:dark:bg-dark dark:bg-dark/10"
+          >
+            Login
+          </Button>
+          <Button className="text-white" onClick={() => setIsLogin(true)}>
+            Sign up
+          </Button>
+        </Unauthenticated>
+        <Authenticated>
+          <UserButton image={data?.image!} name={data?.name!} />
+        </Authenticated>
       </div>
     </div>
   );

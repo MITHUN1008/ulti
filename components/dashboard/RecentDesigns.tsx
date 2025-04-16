@@ -9,6 +9,7 @@ import { useQuery } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
 import Moment from "react-moment";
+import { ImSpinner6 } from "react-icons/im";
 
 const RecentDesigns = () => {
   const { isOnline } = useNetworkStatusStore();
@@ -46,41 +47,49 @@ const RecentDesigns = () => {
   return (
     <div className="space-y-4 pt-10">
       <h1 className="font-bold text-xl">Recent Designs</h1>
-      {designs?.map((design) => (
-        <div
-          className="flex justify-between border border-gray-400 dark:border-zinc-700 rounded-md items-center p-3 mb-2"
-          key={design._id}
-        >
-          <Link
-            href={`/design/${design._id}`}
-            className="flex gap-4 items-center"
-          >
-            {!design.thumbnailUrl ? (
-              <div className="size-14 rounded-md bg-white border border-gray-400 dark:border-zinc-700" />
-            ) : (
-              <img
-                src={design.thumbnailUrl}
-                alt=""
-                className="size-14 rounded-md"
-              />
-            )}
-            <p className="text-lightBlue text-lg font-semibold">
-              {design.title}
-            </p>
-            <p className="text-sm hidden md:flex">
-              {design.width} x {design.height} px
-            </p>
-          </Link>
-          <Moment fromNow>{design._creationTime}</Moment>
-          <Button
-            variant={"destructive"}
-            disabled={pending}
-            onClick={() => HandleDelete(design._id)}
-          >
-            Delete
-          </Button>
+      {designs === undefined ? (
+        <div className="flex justify-center items-center h-[40vh]">
+          <ImSpinner6 className="size-10 animate-spin" />
         </div>
-      ))}
+      ) : (
+        <>
+          {designs?.map((design) => (
+            <div
+              className="flex justify-between border border-gray-400 dark:border-zinc-700 rounded-md items-center p-3 mb-2"
+              key={design._id}
+            >
+              <Link
+                href={`/design/${design._id}`}
+                className="flex gap-4 items-center"
+              >
+                {!design.thumbnailUrl ? (
+                  <div className="size-14 rounded-md bg-white border border-gray-400 dark:border-zinc-700" />
+                ) : (
+                  <img
+                    src={design.thumbnailUrl}
+                    alt=""
+                    className="size-14 rounded-md"
+                  />
+                )}
+                <p className="text-lightBlue text-lg font-semibold">
+                  {design.title}
+                </p>
+                <p className="text-sm hidden md:flex">
+                  {design.width} x {design.height} px
+                </p>
+              </Link>
+              <Moment fromNow>{design._creationTime}</Moment>
+              <Button
+                variant={"destructive"}
+                disabled={pending}
+                onClick={() => HandleDelete(design._id)}
+              >
+                Delete
+              </Button>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 };

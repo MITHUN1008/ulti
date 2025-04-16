@@ -1,10 +1,9 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect } from "react";
 import * as fabric from "fabric";
 import { useQuery } from "convex/react";
 import { redirect, useParams } from "next/navigation";
-import debounce from "lodash.debounce";
 
 import Header from "@/components/design/header";
 import Sidebar from "@/components/design/sidebar";
@@ -12,25 +11,22 @@ import { api } from "@/convex/_generated/api";
 import { Tools } from "@/components/design/tools";
 import { useActiveElementStore } from "@/store/ActiveEelement";
 import { useCanvas } from "@/store/useCanvas";
-import { useApiMutation } from "@/hooks/use-api-mutation";
-import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import { ImSpinner6 } from "react-icons/im";
 
 const Design = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { canvas, setCanvas } = useCanvas();
+  const { activeElement, setActiveElement, setActiveElements } =
+    useActiveElementStore();
+  const { isOnline } = useNetworkStatusStore();
   const { id } = useParams();
-  const { data } = useCurrentUser();
 
   // const design = {};
   const design = useQuery(api.design.getDesign, { id: id as string });
   // if (!data) redirect("/");
 
   if (design === null) redirect("/dashboard");
-
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { canvas, setCanvas } = useCanvas();
-  const { activeElement, setActiveElement, setActiveElements } =
-    useActiveElementStore();
-  const { isOnline } = useNetworkStatusStore();
 
   const width = design?.width;
   const height = design?.height;
@@ -117,17 +113,23 @@ const Design = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <Header design={design} saving={false} />
+      <Header design={design} />
       <div className="relative t h-[calc(100%-70px)] w-full top-[80px] flex">
         {isOnline && <Sidebar design={design} />}
         <main className="flex-1 overflow-auto relative flex flex-col">
           {activeElement && isOnline && <Tools />}
-          <div
-            className="flex-1 h-[calc(100%-124px)] bg-white ml-4"
-            style={{ height: height, width: width }}
-          >
-            <canvas ref={canvasRef} height={height} width={width} />
-          </div>
+          {design === undefined ? (
+            <div className="flex justify-center items-center h-[40vh]">
+              <ImSpinner6 className="size-10 animate-spin" />
+            </div>
+          ) : (
+            <div
+              className="flex-1 h-[calc(100%-124px)] bg-white ml-4"
+              style={{ height: height, width: width }}
+            >
+              <canvas ref={canvasRef} height={height} width={width} />
+            </div>
+          )}
         </main>
       </div>
     </div>

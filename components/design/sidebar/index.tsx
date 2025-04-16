@@ -6,6 +6,7 @@ import Text from "./Text";
 import Uploads from "./Uploads";
 import Draw from "./Draw";
 import Setting from "./Setting";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { BiCategoryAlt } from "react-icons/bi";
 import {
@@ -24,7 +25,11 @@ const Sidebar = ({ design }: { design: designProps | undefined }) => {
           trigger={
             <Trigger Icon={MdOutlineSpaceDashboard} text={"Templates"} />
           }
-          content={<Templates />}
+          content={
+            <ScrollArea className="h-[70vh]">
+              <Templates />
+            </ScrollArea>
+          }
           side={"left"}
         />
         <HovercardGlobal

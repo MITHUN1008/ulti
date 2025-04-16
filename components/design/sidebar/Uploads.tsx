@@ -12,15 +12,23 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 import * as fabric from "fabric";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ImSpinner6 } from "react-icons/im";
+import Offline from "@/components/global/Offline";
+import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 
 const Uploads = () => {
   const { canvas } = useCanvas();
+  const { isOnline } = useNetworkStatusStore();
   const [deletePending, startTransition] = useTransition();
   const userImages = useQuery(api.images.getImages);
   const { mutate, pending } = useApiMutation(api.images.createImages);
   const { mutate: updateMutate, pending: updatePending } = useApiMutation(
     api.images.updateImages
   );
+
+  if (!isOnline) {
+    return <Offline />;
+  }
 
   const handleUpload = async (images: string[]) => {
     // console.log("Images: ", images);
@@ -122,26 +130,37 @@ const Uploads = () => {
             No Images to Show
           </h1>
         ) : (
-          <div className="image-grid">
-            {userImages?.images.map((image) => (
-              <div key={image} className="relative cursor-pointer hover:p-1">
-                <img
-                  src={image}
-                  alt="image"
-                  onClick={() => addToCanvas(image)}
-                  className="h-fit border dark:border-gray-500 rounded-md"
-                />
-                <Button
-                  variant="destructive"
-                  onClick={() => handleDelete(image)}
-                  className="absolute top-2 right-2 size-8"
-                  disabled={pending || updatePending || deletePending}
-                >
-                  <MdDelete className="size-8" />
-                </Button>
+          <>
+            {userImages === undefined ? (
+              <div className="flex justify-center items-center h-[40vh]">
+                <ImSpinner6 className="size-10 animate-spin" />
               </div>
-            ))}
-          </div>
+            ) : (
+              <div className="image-grid">
+                {userImages?.images.map((image) => (
+                  <div
+                    key={image}
+                    className="relative cursor-pointer hover:p-1"
+                  >
+                    <img
+                      src={image}
+                      alt="image"
+                      onClick={() => addToCanvas(image)}
+                      className="h-fit border dark:border-gray-500 rounded-md"
+                    />
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleDelete(image)}
+                      className="absolute top-2 right-2 size-8"
+                      disabled={pending || updatePending || deletePending}
+                    >
+                      <MdDelete className="size-8" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </ScrollArea>
