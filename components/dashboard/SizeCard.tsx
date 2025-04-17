@@ -1,12 +1,8 @@
 "use client";
 
-import { api } from "@/convex/_generated/api";
-import { useApiMutation } from "@/hooks/use-api-mutation";
 import { cn } from "@/lib/utils";
 
-import { useRouter } from "next/navigation";
 import { IconType } from "react-icons/lib";
-import { Button } from "../ui/button";
 
 const SizeCard = ({
   backgroundColor,

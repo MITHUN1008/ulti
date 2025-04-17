@@ -73,7 +73,7 @@ const Header = ({ design }: { design: designProps | null | undefined }) => {
           <AuthLoading>
             <ImSpinner6 className="size-6 animate-spin" />
           </AuthLoading>
-          {data && <UserButton image={data.image!} name={data.name!} />}
+          {data && <UserButton />}
         </div>
       </div>
     </>

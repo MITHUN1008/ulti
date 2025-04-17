@@ -15,11 +15,11 @@ const Sizes = () => {
   const router = useRouter();
   const { mutate, pending } = useApiMutation(api.design.createDesign);
 
-  // if (!isOnline) {
-  //   return null;
-  // }
+  if (!isOnline) {
+    return null;
+  }
   return (
-    <div className="grid grid-cols-3 md:grid-cols-4 lg:flex gap-2 h-full justify-center items-center w-full mt-4">
+    <div className="sizes-grid">
       {designTypes.map((design, i) => {
         const handleClick = async () => {
           await mutate({
@@ -47,7 +47,7 @@ const Sizes = () => {
         return (
           <Button
             key={i}
-            className="cursor-pointer group items-center flex flex-col space-y-1 size-32 disabled:opacity-50"
+            className="size-btn size-32 group"
             onClick={handleClick}
             disabled={pending}
             variant={"ghost"}

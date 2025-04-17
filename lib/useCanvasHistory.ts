@@ -16,6 +16,7 @@ export const useCanvasHistory = (
 
   const saveToConvex = async () => {
     if (!canvas) return;
+    if (!designId) return;
     await mutate({
       id: designId,
       json: canvas.toJSON(),

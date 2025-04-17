@@ -12,6 +12,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { usePricingStore } from "@/store/PricingStore";
 
 import { useAuthActions } from "@convex-dev/auth/react";
@@ -21,11 +22,12 @@ import { FaMoon } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";
 import { MdLogout, MdOutlinePriceCheck } from "react-icons/md";
 
-const UserButton = ({ image, name }: { image: string; name: string }) => {
+const UserButton = () => {
   const { setTheme, theme } = useTheme();
   const { setIsPricing } = usePricingStore();
   const { signOut } = useAuthActions();
   const router = useRouter();
+  const { data } = useCurrentUser();
 
   const logout = () => {
     router.push("/");
@@ -36,9 +38,12 @@ const UserButton = ({ image, name }: { image: string; name: string }) => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="size-12 items-center rounded-lg">
-          <AvatarImage src={image} alt={name?.charAt(0).toUpperCase()} />
+          <AvatarImage
+            src={data?.image}
+            alt={data?.name?.charAt(0).toUpperCase()}
+          />
           <AvatarFallback className="rounded-lg">
-            {name?.charAt(0).toUpperCase()}
+            {data?.name?.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

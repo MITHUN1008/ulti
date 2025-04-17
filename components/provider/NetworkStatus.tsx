@@ -33,25 +33,20 @@ export default function NetworkStatus() {
     return null;
   }
 
-  return (
-    <>
-      {!isOnline && (
-        <div className="flex justify-center items-center">
-          <div
-            className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-2xl
-           shadow-lg dark:text-gray-400 dark:bg-black transition-transform fixed top-5 z-[70]"
-          >
-            <div className="ml-3 text-sm font-normal flex items-center">
-              {!isOnline && (
-                <>
-                  <IoCloudOfflineOutline className="mr-2 size-4" />
-                  You are Offline
-                </>
-              )}
-            </div>
+  if (!isOnline) {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="network-div">
+          <div className="ml-3 text-sm font-normal flex items-center">
+            {!isOnline && (
+              <>
+                <IoCloudOfflineOutline className="mr-2 size-4" />
+                You are Offline
+              </>
+            )}
           </div>
         </div>
-      )}
-    </>
-  );
+      </div>
+    );
+  }
 }

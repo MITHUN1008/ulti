@@ -54,10 +54,7 @@ const RecentDesigns = () => {
       ) : (
         <>
           {designs?.map((design) => (
-            <div
-              className="flex justify-between border border-gray-400 dark:border-zinc-700 rounded-md items-center p-3 mb-2"
-              key={design._id}
-            >
+            <div className="recentdesigns-div" key={design._id}>
               <Link
                 href={`/design/${design._id}`}
                 className="flex gap-4 items-center"

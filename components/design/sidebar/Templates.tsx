@@ -32,19 +32,28 @@ const Templates = () => {
 
   if (designs?.length === 0) {
     return (
-      <div className="flex justify-center items-center h-[40vh]">
-        <div>
-          <Image
-            src={"/noprojects.png"}
-            alt="offline-png"
-            height={500}
-            width={500}
-          />
-          <p className="font-bold text-2xl text-center">
-            No Published Projects
-          </p>
+      <>
+        <h1 className="font-bold text-2xl mb-2">
+          Templates for absolutely anything
+        </h1>
+        <p className="text-lg mb-4 text-gray-500 dark:text-zinc-400">
+          Customize an office template, or design something more personal, like
+          an invitation.
+        </p>
+        <div className="flex justify-center items-center h-[40vh]">
+          <div>
+            <Image
+              src={"/noprojects.png"}
+              alt="offline-png"
+              height={500}
+              width={500}
+            />
+            <p className="font-bold text-2xl text-center">
+              No Published Projects
+            </p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 

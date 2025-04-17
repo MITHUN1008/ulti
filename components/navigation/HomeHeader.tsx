@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { useLoginStore } from "@/store/LoginStore";
 import UserButton from "@/components/global/UserButton";
 
@@ -12,10 +11,10 @@ import { ImSpinner6 } from "react-icons/im";
 
 const HomeHeader = () => {
   const { setIsLogin } = useLoginStore();
-  const { data } = useCurrentUser();
+
   // console.log(data);
   return (
-    <div className="flex justify-between p-3 shadow-lg sticky top-0 z-30 dark:bg-dark bg-white">
+    <div className="header">
       <Link href={"/"}>
         <Image
           src={"/logo.png"}
@@ -42,7 +41,7 @@ const HomeHeader = () => {
           </Button>
         </Unauthenticated>
         <Authenticated>
-          <UserButton image={data?.image!} name={data?.name!} />
+          <UserButton />
         </Authenticated>
       </div>
     </div>

@@ -22,7 +22,7 @@ const LoginModal = () => {
     await signIn(provider)
       .then((res) => {
         setLoading(false);
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         setLoading(false);
