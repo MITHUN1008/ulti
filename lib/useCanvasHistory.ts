@@ -60,6 +60,7 @@ export const useCanvasHistory = (
       canvas.loadFromJSON(prevState).then((canvas) => {
         canvas.requestRenderAll();
         previousJson.current = prevState;
+        debouncedSave();
         pauseSaving.current = false;
         setCanUndo(undoStack.current.length > 1);
         setCanRedo(true);
@@ -81,6 +82,7 @@ export const useCanvasHistory = (
         canvas.requestRenderAll();
         previousJson.current = nextState;
         pauseSaving.current = false;
+        debouncedSave();
         setCanUndo(true);
         setCanRedo(redoStack.current.length > 0);
       });
