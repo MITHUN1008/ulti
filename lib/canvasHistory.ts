@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useCanvas } from "@/store/useCanvas";
 import debounce from "lodash.debounce";
-import { toast } from "sonner";
 
 export const useCanvasHistory = (
   mutate: (payload: any) => Promise<any>,
@@ -11,14 +10,13 @@ export const useCanvasHistory = (
   const undoStack = useRef<string[]>([]);
   const redoStack = useRef<string[]>([]);
   const pauseSaving = useRef(false);
-  const previousJson = useRef<string | null>(null);
 
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
 
   const saveToConvex = async () => {
-    if (!canvas || !designId) return;
-    // toast.success("Saving design...");
+    if (!canvas) return;
+    if (!designId) return;
     await mutate({
       id: designId,
       json: canvas.toJSON(),
@@ -28,23 +26,17 @@ export const useCanvasHistory = (
     });
   };
 
-  const debouncedSave = debounce(() => {
-    saveToConvex();
-  }, 500);
-
   const saveState = () => {
     if (!canvas || pauseSaving.current) return;
 
     const json = JSON.stringify(canvas.toJSON());
-    if (previousJson.current !== json) {
-      undoStack.current.push(json);
-      previousJson.current = json;
-      redoStack.current = [];
-      debouncedSave();
+    undoStack.current.push(json);
+    redoStack.current = []; // Clear redo stack on new action
 
-      setCanUndo(undoStack.current.length > 1);
-      setCanRedo(false);
-    }
+    setCanUndo(undoStack.current.length > 1);
+    setCanRedo(false);
+
+    // console.log("Saved state", undoStack.current);
   };
 
   const undo = () => {
@@ -52,14 +44,13 @@ export const useCanvasHistory = (
 
     pauseSaving.current = true;
 
-    const lastState = undoStack.current.pop();
+    const lastState = undoStack.current.pop(); // Remove current
     const prevState = undoStack.current[undoStack.current.length - 1];
 
     if (lastState) redoStack.current.push(lastState);
     if (prevState) {
       canvas.loadFromJSON(prevState).then((canvas) => {
         canvas.requestRenderAll();
-        previousJson.current = prevState;
         pauseSaving.current = false;
         setCanUndo(undoStack.current.length > 1);
         setCanRedo(true);
@@ -79,7 +70,6 @@ export const useCanvasHistory = (
       undoStack.current.push(nextState);
       canvas.loadFromJSON(nextState).then((canvas) => {
         canvas.requestRenderAll();
-        previousJson.current = nextState;
         pauseSaving.current = false;
         setCanUndo(true);
         setCanRedo(redoStack.current.length > 0);
@@ -92,30 +82,31 @@ export const useCanvasHistory = (
   useEffect(() => {
     if (!canvas) return;
 
-    const checkAndSave = () => {
+    const debouncedSave = debounce(() => {
+      saveToConvex();
+    }, 500);
+    const save = () => {
+      debouncedSave();
       saveState();
     };
 
-    canvas.on("object:added", checkAndSave);
-    canvas.on("object:modified", checkAndSave);
-    canvas.on("object:removed", checkAndSave);
+    canvas.on("object:added", save);
+    canvas.on("object:modified", save);
+    canvas.on("object:removed", save);
 
-    const interval = setInterval(() => {
-      saveState();
-    }, 1000);
-
-    saveState();
+    // Save initial state
+    save();
 
     return () => {
-      canvas.off("object:added", checkAndSave);
-      canvas.off("object:modified", checkAndSave);
-      canvas.off("object:removed", checkAndSave);
-      clearInterval(interval);
+      canvas.off("object:added", save);
+      canvas.off("object:modified", save);
+      canvas.off("object:removed", save);
     };
   }, [canvas]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Only when input/textarea is NOT focused
       const target = e.target as HTMLElement;
       const isInput =
         target.tagName === "INPUT" ||
@@ -135,7 +126,7 @@ export const useCanvasHistory = (
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [undo, redo]);
 
   return {
     canUndo,

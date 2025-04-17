@@ -6,10 +6,10 @@ import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { Button } from "@/components/ui/button";
 
 import { useQuery } from "convex/react";
-import Image from "next/image";
 import Link from "next/link";
 import Moment from "react-moment";
 import { ImSpinner6 } from "react-icons/im";
+import NoItems from "../global/NoItems";
 
 const RecentDesigns = () => {
   const { isOnline } = useNetworkStatusStore();
@@ -18,22 +18,6 @@ const RecentDesigns = () => {
 
   if (!isOnline) {
     return null;
-  }
-
-  if (designs?.length === 0) {
-    return (
-      <div className="flex justify-center items-center h-[40vh]">
-        <div>
-          <Image
-            src={"/noprojects.png"}
-            alt="offline-png"
-            height={500}
-            width={500}
-          />
-          <p className="font-bold text-2xl text-center">Possibilities await!</p>
-        </div>
-      </div>
-    );
   }
 
   const HandleDelete = async (id: string) => {
@@ -47,6 +31,7 @@ const RecentDesigns = () => {
   return (
     <div className="space-y-4 pt-10">
       <h1 className="font-bold text-xl">Recent Designs</h1>
+      {designs?.length === 0 && <NoItems text="Possibilities await!" />}
       {designs === undefined ? (
         <div className="flex justify-center items-center h-[40vh]">
           <ImSpinner6 className="size-10 animate-spin" />

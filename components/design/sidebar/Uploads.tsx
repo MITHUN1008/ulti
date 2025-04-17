@@ -5,16 +5,18 @@ import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { useCanvas } from "@/store/useCanvas";
 import { UploadButton } from "@/lib/uploadthing";
+import Offline from "@/components/global/Offline";
+import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
+import Image from "next/image";
 import { useQuery } from "convex/react";
 import { useTransition } from "react";
 import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 import * as fabric from "fabric";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { ImSpinner6 } from "react-icons/im";
-import Offline from "@/components/global/Offline";
-import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import NoItems from "@/components/global/NoItems";
 
 const Uploads = () => {
   const { canvas } = useCanvas();
@@ -25,7 +27,7 @@ const Uploads = () => {
   const { mutate: updateMutate, pending: updatePending } = useApiMutation(
     api.images.updateImages
   );
-
+  console.log(userImages?.images);
   if (!isOnline) {
     return <Offline />;
   }
@@ -125,42 +127,34 @@ const Uploads = () => {
           title="Images"
           description="Choose an image to add to your canvas"
         />
-        {userImages?.images.length === 0 ? (
-          <h1 className="flex justify-center items-center text-xl text-primary font-bold">
-            No Images to Show
-          </h1>
+        {userImages?.images.length === 0 && (
+          <NoItems text="No Images to Show" />
+        )}
+        {userImages === undefined ? (
+          <div className="flex justify-center items-center h-[40vh]">
+            <ImSpinner6 className="size-10 animate-spin" />
+          </div>
         ) : (
-          <>
-            {userImages === undefined ? (
-              <div className="flex justify-center items-center h-[40vh]">
-                <ImSpinner6 className="size-10 animate-spin" />
+          <div className="image-grid">
+            {userImages?.images.map((image) => (
+              <div key={image} className="relative cursor-pointer hover:p-1">
+                <img
+                  src={image}
+                  alt="image"
+                  onClick={() => addToCanvas(image)}
+                  className="h-fit border dark:border-gray-500 rounded-md"
+                />
+                <Button
+                  variant="destructive"
+                  onClick={() => handleDelete(image)}
+                  className="absolute top-2 right-2 size-8"
+                  disabled={pending || updatePending || deletePending}
+                >
+                  <MdDelete className="size-8" />
+                </Button>
               </div>
-            ) : (
-              <div className="image-grid">
-                {userImages?.images.map((image) => (
-                  <div
-                    key={image}
-                    className="relative cursor-pointer hover:p-1"
-                  >
-                    <img
-                      src={image}
-                      alt="image"
-                      onClick={() => addToCanvas(image)}
-                      className="h-fit border dark:border-gray-500 rounded-md"
-                    />
-                    <Button
-                      variant="destructive"
-                      onClick={() => handleDelete(image)}
-                      className="absolute top-2 right-2 size-8"
-                      disabled={pending || updatePending || deletePending}
-                    >
-                      <MdDelete className="size-8" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
+            ))}
+          </div>
         )}
       </div>
     </ScrollArea>

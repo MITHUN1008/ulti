@@ -8,12 +8,12 @@ import { useCanvas } from "@/store/useCanvas";
 // @ts-ignore
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useQuery } from "convex/react";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { ImSpinner6 } from "react-icons/im";
 import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { useLoginStore } from "@/store/LoginStore";
+import NoItems from "@/components/global/NoItems";
 
 const Templates = () => {
   const { canvas } = useCanvas();
@@ -28,33 +28,6 @@ const Templates = () => {
 
   if (!isOnline) {
     return null;
-  }
-
-  if (designs?.length === 0) {
-    return (
-      <>
-        <h1 className="font-bold text-2xl mb-2">
-          Templates for absolutely anything
-        </h1>
-        <p className="text-lg mb-4 text-gray-500 dark:text-zinc-400">
-          Customize an office template, or design something more personal, like
-          an invitation.
-        </p>
-        <div className="flex justify-center items-center h-[40vh]">
-          <div>
-            <Image
-              src={"/noprojects.png"}
-              alt="offline-png"
-              height={500}
-              width={500}
-            />
-            <p className="font-bold text-2xl text-center">
-              No Published Projects
-            </p>
-          </div>
-        </div>
-      </>
-    );
   }
 
   const handleSelect = async (design: designProps) => {
@@ -100,6 +73,7 @@ const Templates = () => {
         Customize an office template, or design something more personal, like an
         invitation.
       </p>
+      {designs?.length === 0 && <NoItems text="No Published Projects" />}
       {designs === undefined ? (
         <div className="flex justify-center items-center h-[40vh]">
           <ImSpinner6 className="size-10 animate-spin" />

@@ -14,8 +14,8 @@ import { useState } from "react";
 import { ImSpinner6 } from "react-icons/im";
 import { MdRedo, MdUndo } from "react-icons/md";
 import { AuthLoading } from "convex/react";
-import { useCanvasHistory } from "@/lib/useCanvasHistory";
 import { Hint } from "@/components/global/hint";
+import { useCanvasHistory } from "@/lib/useCanvasHistory";
 
 const Header = ({ design }: { design: designProps | null | undefined }) => {
   const { data } = useCurrentUser();
