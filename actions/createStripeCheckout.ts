@@ -27,7 +27,7 @@ export async function createStripeCheckout(plan: string, user: userProps) {
             product_data: {
               name: plan,
               description: plan,
-              images: ["/favicon.ico"],
+              images: ["https://canvaclonebr.vercel.app/favicon.ico"],
             },
             unit_amount: priceInCents, // $10.00
           },
