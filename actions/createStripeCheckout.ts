@@ -4,11 +4,6 @@ import stripe from "@/lib/stripe";
 import { userProps } from "@/type";
 
 export async function createStripeCheckout(plan: string, user: userProps) {
-  const baseUrl =
-    process.env.NODE_ENV === "production"
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : `${process.env.NEXT_PUBLIC_BASE_URL}`;
-
   try {
     if (!plan) {
       throw new Error("Plan not found");

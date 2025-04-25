@@ -15,14 +15,11 @@ export const currentUser = query({
 
 export const updateStatus = mutation({
   args: {
+    id: v.id("users"),
     isPro: v.boolean(),
   },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (userId === null) {
-      throw new Error("Unauthenticated");
-    }
-    const updateDesignSize = await ctx.db.patch(userId, {
+    const updateDesignSize = await ctx.db.patch(args.id, {
       isPro: args.isPro,
     });
     return updateDesignSize;
