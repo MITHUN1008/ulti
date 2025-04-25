@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { api } from "@/convex/_generated/api";
 import { fetchMutation } from "convex/nextjs";
+import { Id } from "@/convex/_generated/dataModel";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16" as Stripe.LatestApiVersion,
@@ -40,9 +41,14 @@ export async function POST(req: Request) {
 
       // // Get the courseId and userId from the metadata
       // const plan = session.metadata?.plan;
-      // const userId = session.metadata?.userId;
+      const userId = session.metadata?.userId;
+      if (!userId)
+        return new NextResponse("User ID not found", { status: 400 });
       // const status = session.payment_status;
-      await fetchMutation(api.users.updateStatus, { isPro: true });
+      await fetchMutation(api.users.updateStatus, {
+        id: userId as Id<"users">,
+        isPro: true,
+      });
       return new NextResponse(null, { status: 200 });
     }
 
