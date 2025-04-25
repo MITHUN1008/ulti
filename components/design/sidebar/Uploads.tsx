@@ -27,7 +27,7 @@ const Uploads = () => {
   const { mutate: updateMutate, pending: updatePending } = useApiMutation(
     api.images.updateImages
   );
-  console.log(userImages?.images);
+  // console.log(userImages?.images);
   if (!isOnline) {
     return <Offline />;
   }

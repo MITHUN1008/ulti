@@ -14,6 +14,7 @@ import { ImSpinner6 } from "react-icons/im";
 import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { useLoginStore } from "@/store/LoginStore";
 import NoItems from "@/components/global/NoItems";
+import { designProps } from "@/type";
 
 const Templates = () => {
   const { canvas } = useCanvas();

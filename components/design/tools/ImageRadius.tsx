@@ -35,7 +35,10 @@ const ImageRadius = () => {
   };
   return (
     <div className="flex flex-col space-y-4">
-      <ToolHeader title={"Adjust Corners"} description={"Adjust Corners"} />
+      <ToolHeader
+        title={"Adjust Image Radius"}
+        description={"Adjust Corners"}
+      />
 
       <Slider
         defaultValue={[rx]}

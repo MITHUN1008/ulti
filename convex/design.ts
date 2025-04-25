@@ -45,6 +45,18 @@ export const designs = query(async (ctx) => {
   return design;
 });
 
+export const deleteDesign = mutation({
+  args: { id: v.id("design") },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) {
+      throw new Error("Unauthenticated");
+    }
+    const deletedDesignId = await ctx.db.delete(args.id);
+    return deletedDesignId;
+  },
+});
+
 export const publishedDesigns = query(async (ctx) => {
   //   console.log("Write and test your query function here!");
   const designs = ctx.db
@@ -143,17 +155,5 @@ export const updateSize = mutation({
       width: args.width,
     });
     return updateDesignSize;
-  },
-});
-
-export const deleteDesign = mutation({
-  args: { id: v.id("design") },
-  handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (userId === null) {
-      throw new Error("Unauthenticated");
-    }
-    const deletedDesignId = await ctx.db.delete(args.id);
-    return deletedDesignId;
   },
 });

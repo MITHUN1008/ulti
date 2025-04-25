@@ -114,7 +114,7 @@ const Design = () => {
   return (
     <div className="h-full flex flex-col">
       <Header design={design} />
-      <div className="relative t h-[calc(100%-70px)] w-full top-[80px] flex">
+      <div className="relative h-[calc(100%-70px)] w-full top-[80px] flex">
         {isOnline && <Sidebar design={design} />}
         <main className="flex-1 overflow-auto relative flex flex-col">
           {activeElement && isOnline && <Tools />}

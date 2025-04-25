@@ -7,6 +7,7 @@ import Uploads from "./Uploads";
 import Draw from "./Draw";
 import Setting from "./Setting";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { designProps } from "@/type";
 
 import { BiCategoryAlt } from "react-icons/bi";
 import {

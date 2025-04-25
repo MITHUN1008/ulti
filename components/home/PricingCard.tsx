@@ -1,7 +1,13 @@
+"use client";
+import { useRouter } from "next/navigation";
+import { FaCrown } from "react-icons/fa";
+import { useTransition } from "react";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-
-import { FaCrown } from "react-icons/fa";
+import { createStripeCheckout } from "@/actions/createStripeCheckout";
+import { useCurrentUser } from "@/fetch/useCurrentUser";
+import { useLoginStore } from "@/store/LoginStore";
 
 const PricingCard = ({
   description,
@@ -12,6 +18,37 @@ const PricingCard = ({
   priceName: string;
   description: string;
 }) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const user = useCurrentUser();
+  const { setIsLogin } = useLoginStore();
+  const isPro = user?.data?.isPro;
+
+  const handleClick = async () => {
+    if (!user?.data) {
+      setIsLogin(true);
+      return;
+    }
+    if (priceName === "Canva Free") {
+      router.push("/dashboard");
+      return;
+    }
+    if (isPro) return;
+    startTransition(async () => {
+      try {
+        const userId = user?.data?._id;
+        if (!userId) return;
+
+        const { url } = await createStripeCheckout(priceName, user);
+        if (url) {
+          router.push(url);
+        }
+      } catch (error) {
+        console.error("Error in handleEnroll:", error);
+        throw new Error("Failed to create checkout session");
+      }
+    });
+  };
   return (
     <div
       className={cn(
@@ -30,7 +67,11 @@ const PricingCard = ({
 
       <p className="text-xl font-bold text-primary">{priceName}</p>
       <p className="text-muted-foreground text-xs mb-4">{description}</p>
-      <Button className="w-full text-white">
+      <Button
+        className="w-full text-white"
+        onClick={handleClick}
+        disabled={isPending || user.isLoading || isPro}
+      >
         {priceName === "Canva Free" ? "Get Canva Free" : "Start free Pro trial"}
       </Button>
     </div>

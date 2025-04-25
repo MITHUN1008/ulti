@@ -6,10 +6,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCanvas } from "@/store/useCanvas";
 import Colors from "@/components/design/tools/Colors";
 import { useApiMutation } from "@/hooks/use-api-mutation";
-
-import { useState } from "react";
 import { parseLinearGradientString } from "@/lib/utils";
 import { api } from "@/convex/_generated/api";
+import { designProps } from "@/type";
+
+import { useState } from "react";
 
 const Setting = ({ design }: { design: designProps | undefined }) => {
   const { canvas } = useCanvas();

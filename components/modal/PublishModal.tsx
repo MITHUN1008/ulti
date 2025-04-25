@@ -3,6 +3,7 @@ import { Switch } from "@/components/ui/switch";
 import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { Button } from "@/components/ui/button";
+import { designProps } from "@/type";
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

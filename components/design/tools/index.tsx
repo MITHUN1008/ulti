@@ -224,7 +224,7 @@ export const Tools = () => {
           <div className="flex items-center h-full justify-center">
             <HovercardGlobal
               trigger={
-                <Hint label="Stroke width" side="bottom" sideOffset={5}>
+                <Hint label="Corners" side="bottom" sideOffset={5}>
                   <Button size="icon" variant="ghost">
                     <TbBorderCornerIos className="size-4" />
                   </Button>
@@ -249,13 +249,13 @@ export const Tools = () => {
           <Text updateSelectedText={updateSelectedObject} />
         )}
 
-        {/* imge */}
+        {/* image */}
         {activeElement?.type === "image" && (
           <>
             <div className="flex items-center h-full justify-center">
               <HovercardGlobal
                 trigger={
-                  <Hint label="Stroke width" side="bottom" sideOffset={5}>
+                  <Hint label="Image Radius" side="bottom" sideOffset={5}>
                     <Button size="icon" variant="ghost">
                       <TbBorderCornerIos className="size-4" />
                     </Button>

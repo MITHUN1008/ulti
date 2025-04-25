@@ -1,4 +1,3 @@
-import { useCurrentUser } from "@/fetch/useCurrentUser";
 import UserButton from "@/components/global/UserButton";
 import DesignInput from "@/components/design/header/DesignInput";
 import { FileDropdown } from "./FileDropdown";
@@ -13,12 +12,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { ImSpinner6 } from "react-icons/im";
 import { MdRedo, MdUndo } from "react-icons/md";
-import { AuthLoading } from "convex/react";
+import { AuthLoading, Authenticated } from "convex/react";
 import { Hint } from "@/components/global/hint";
 import { useCanvasHistory } from "@/lib/useCanvasHistory";
+import { designProps } from "@/type";
 
 const Header = ({ design }: { design: designProps | null | undefined }) => {
-  const { data } = useCurrentUser();
   const [open, setOpen] = useState(false);
   const { mutate, pending } = useApiMutation(api.design.updateDesign);
   const { isOnline } = useNetworkStatusStore();
@@ -46,7 +45,7 @@ const Header = ({ design }: { design: designProps | null | undefined }) => {
           <Hint label="Undo">
             <Button
               onClick={() => undo()}
-              disabled={!canUndo}
+              disabled={!canUndo || !isOnline}
               variant={"ghost"}
               size={"icon"}
             >
@@ -56,7 +55,7 @@ const Header = ({ design }: { design: designProps | null | undefined }) => {
           <Hint label="redo">
             <Button
               onClick={() => redo()}
-              disabled={!canRedo}
+              disabled={!canRedo || !isOnline}
               variant={"ghost"}
               size={"icon"}
             >
@@ -73,7 +72,9 @@ const Header = ({ design }: { design: designProps | null | undefined }) => {
           <AuthLoading>
             <ImSpinner6 className="size-6 animate-spin" />
           </AuthLoading>
-          {data && <UserButton />}
+          <Authenticated>
+            <UserButton />
+          </Authenticated>
         </div>
       </div>
     </>
