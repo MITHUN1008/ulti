@@ -3,7 +3,6 @@ import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const currentUser = query({
-  args: {},
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
     if (userId === null) {

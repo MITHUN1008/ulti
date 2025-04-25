@@ -7,7 +7,6 @@ export const { auth, signIn, signOut, store } = convexAuth({
     GitHub({
       profile(githubProfile) {
         return {
-          id: githubProfile.node_id,
           name: githubProfile.name,
           image: githubProfile.avatar_url,
           email: githubProfile.email ? githubProfile.email : "",
