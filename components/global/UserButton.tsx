@@ -18,7 +18,7 @@ import { usePricingStore } from "@/store/PricingStore";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import { FaMoon } from "react-icons/fa";
+import { FaCrown, FaMoon } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";
 import { MdLogout, MdOutlinePriceCheck } from "react-icons/md";
 
@@ -37,15 +37,20 @@ const UserButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar className="size-12 items-center rounded-lg">
-          <AvatarImage
-            src={data?.image}
-            alt={data?.name?.charAt(0).toUpperCase()}
-          />
-          <AvatarFallback className="rounded-lg">
-            {data?.name?.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        <div className="cursor-pointer mr-2">
+          <Avatar className="size-12 items-center rounded-lg relative">
+            <AvatarImage
+              src={data?.image}
+              alt={data?.name?.charAt(0).toUpperCase()}
+            />
+            <AvatarFallback className="rounded-lg">
+              {data?.name?.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          {data?.isPro && (
+            <FaCrown className="size-8 text-orange-300 absolute right-1 top-0.5" />
+          )}
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40 dark:bg-dark z-[70] border-none">
         <DropdownMenuSub>

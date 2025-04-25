@@ -5,7 +5,7 @@ import "./globals.css";
 // import "@uploadthing/react/styles.css";
 
 import { Modals } from "@/components/provider/Modal";
-import Toast from "@/components/theme/Toast";
+import Toast from "@/components/provider/Toast";
 import { ThemeProvider } from "@/components/provider/ThemeProvider";
 import NetworkStatus from "@/components/provider/NetworkStatus";
 import { ConvexClientProvider } from "@/components/provider/ConvexClientProvider";
@@ -32,8 +32,10 @@ export default function RootLayout({
           >
             <NetworkStatus />
             <Toast />
-            <ConvexClientProvider>{children}</ConvexClientProvider>
-            <Modals />
+            <ConvexClientProvider>
+              <Modals />
+              {children}
+            </ConvexClientProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -9,7 +9,7 @@ const Toast = () => {
   return (
     <Toaster
       theme={resolvedTheme as "light" | "dark" | "system" | undefined}
-      position="top-right"
+      position="bottom-right"
     />
   );
 };

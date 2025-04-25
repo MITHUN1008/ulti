@@ -15,19 +15,13 @@ export interface designProps {
 }
 
 export interface userProps {
-  data:
-    | {
-        _id: Id<"users">;
-        _creationTime: number;
-        name?: string | undefined;
-        image?: string | undefined;
-        email?: string | undefined;
-        emailVerificationTime?: number | undefined;
-        phone?: string | undefined;
-        phoneVerificationTime?: number | undefined;
-        isPro?: boolean | undefined;
-      }
-    | null
-    | undefined;
-  isLoading: boolean;
+  _id: Id<"users">;
+  _creationTime: number;
+  name?: string | undefined;
+  image?: string | undefined;
+  email?: string | undefined;
+  emailVerificationTime?: number | undefined;
+  phone?: string | undefined;
+  phoneVerificationTime?: number | undefined;
+  isPro?: boolean | undefined;
 }

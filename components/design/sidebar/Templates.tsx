@@ -4,8 +4,6 @@ import { api } from "@/convex/_generated/api";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { useCanvas } from "@/store/useCanvas";
 
-// import Moment from "react-moment";
-// @ts-ignore
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useQuery } from "convex/react";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,6 +13,9 @@ import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { useLoginStore } from "@/store/LoginStore";
 import NoItems from "@/components/global/NoItems";
 import { designProps } from "@/type";
+import { FaCrown } from "react-icons/fa";
+import { usePricingStore } from "@/store/PricingStore";
+import { toast } from "sonner";
 
 const Templates = () => {
   const { canvas } = useCanvas();
@@ -23,6 +24,7 @@ const Templates = () => {
   const router = useRouter();
   const { data } = useCurrentUser();
   const { setIsLogin } = useLoginStore();
+  const { setIsPricing } = usePricingStore();
 
   const designs = useQuery(api.design.publishedDesigns);
   const { mutate, pending } = useApiMutation(api.design.createDesign);
@@ -32,27 +34,35 @@ const Templates = () => {
   }
 
   const handleSelect = async (design: designProps) => {
+    if (!data) {
+      setIsLogin(true);
+      return;
+    }
+    if (design.userId === data?._id) {
+      toast.error("You cannot use your own design");
+      return;
+    }
+    if (design.isPro && !data?.isPro) {
+      setIsPricing(true);
+      return;
+    }
     if (pathname === "/") {
-      if (!data) {
-        setIsLogin(true);
-      } else {
-        await mutate({
-          title: "untitled design",
-          json: design.json,
-          height: design.height,
-          width: design.width,
-          isPro: false,
-          category: "",
-          published: false,
+      await mutate({
+        title: "untitled design",
+        json: design.json,
+        height: design.height,
+        width: design.width,
+        isPro: false,
+        category: "",
+        published: false,
+      })
+        .then((id) => {
+          // console.log(id);
+          router.push(`/design/${id}`);
         })
-          .then((id) => {
-            // console.log(id);
-            router.push(`/design/${id}`);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       if (!canvas) return;
       canvas
@@ -80,14 +90,11 @@ const Templates = () => {
           <ImSpinner6 className="size-10 animate-spin" />
         </div>
       ) : (
-        <ResponsiveMasonry
-          columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
-          gutterBreakpoints={{ 350: "12px", 750: "16px", 900: "24px" }}
-        >
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
           <Masonry>
             {designs?.map((design) => (
               <button
-                className="rounded-md cursor-pointer h-fit disabled:opacity-50 disabled:cursor-not-allowed"
+                className="rounded-md cursor-pointer h-fit disabled:opacity-50 disabled:cursor-not-allowed relative border border-gray-400 dark:border-zinc-700"
                 key={design._id}
                 onClick={() => handleSelect(design)}
                 disabled={pending}
@@ -104,6 +111,11 @@ const Templates = () => {
                     />
                   )}
                 </div>
+                {design.isPro && (
+                  <span className="p-1.5 bg-white rounded-full absolute -top-2 -right-2 border border-gray-400 dark:border-zinc-700">
+                    <FaCrown className="size-4 text-orange-300" />
+                  </span>
+                )}
               </button>
             ))}
           </Masonry>

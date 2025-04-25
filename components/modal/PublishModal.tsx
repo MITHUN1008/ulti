@@ -82,7 +82,9 @@ const PublishModal = ({
             />
           </div>
         </div>
-        <Button onClick={handlePublish}>Publish</Button>
+        <Button onClick={handlePublish} disabled={pending}>
+          Publish
+        </Button>
       </DialogContent>
     </Dialog>
   );

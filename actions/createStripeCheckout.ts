@@ -3,7 +3,10 @@
 import stripe from "@/lib/stripe";
 import { userProps } from "@/type";
 
-export async function createStripeCheckout(plan: string, user: userProps) {
+export async function createStripeCheckout(
+  plan: string,
+  user: userProps | null | undefined
+) {
   try {
     if (!plan) {
       throw new Error("Plan not found");
@@ -12,7 +15,6 @@ export async function createStripeCheckout(plan: string, user: userProps) {
     if (!user) {
       throw new Error("User not found");
     }
-    const priceInCents = Math.round(10 * 100);
     // 3. Create and configure Stripe Checkout Session with course details
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -24,7 +26,7 @@ export async function createStripeCheckout(plan: string, user: userProps) {
               description: plan,
               images: ["https://canvaclonebr.vercel.app/favicon.ico"],
             },
-            unit_amount: priceInCents, // $10.00
+            unit_amount: 30, // $10.00
           },
           quantity: 1,
         },
@@ -34,7 +36,7 @@ export async function createStripeCheckout(plan: string, user: userProps) {
       cancel_url: `https://canvaclonebr.vercel.app/dashboard?success=false`,
       metadata: {
         plan: plan,
-        userId: user?.data?._id ?? "",
+        userId: user?._id ?? "",
       },
     });
 

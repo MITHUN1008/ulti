@@ -4,7 +4,6 @@ import { usePricingStore } from "@/store/PricingStore";
 
 const PlansModal = () => {
   const { isPricing, setIsPricing } = usePricingStore();
-
   if (isPricing) {
     return (
       <Dialog onOpenChange={setIsPricing} open={isPricing}>

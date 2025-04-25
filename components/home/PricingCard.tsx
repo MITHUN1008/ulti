@@ -1,7 +1,9 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import { FaCrown } from "react-icons/fa";
 import { useTransition } from "react";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -39,13 +41,13 @@ const PricingCard = ({
         const userId = user?.data?._id;
         if (!userId) return;
 
-        const { url } = await createStripeCheckout(priceName, user);
+        const { url } = await createStripeCheckout(priceName, user?.data);
         if (url) {
           router.push(url);
         }
       } catch (error) {
         console.error("Error in handleEnroll:", error);
-        throw new Error("Failed to create checkout session");
+        toast.error("Failed to create checkout session");
       }
     });
   };
