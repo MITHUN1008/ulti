@@ -26,7 +26,7 @@ export async function createStripeCheckout(
               description: plan,
               images: ["https://canvaclonebr.vercel.app/favicon.ico"],
             },
-            unit_amount: 30, // $10.00
+            unit_amount: 3000, // $10.00
           },
           quantity: 1,
         },
