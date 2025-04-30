@@ -304,23 +304,24 @@ export const Tools = () => {
           </>
         )}
         {/* bg */}
-        {canvas?.backgroundImage !== undefined && (
-          <div className="flex items-cjenter h-full justify-center">
-            <Hint label="Image Background" side="bottom" sideOffset={5}>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={addImage}
-                className={cn(
-                  canvas?.backgroundImage !== undefined &&
-                    "bg-gray-200 dark:bg-darkHover"
-                )}
-              >
-                <TbBackground className="size-4" />
-              </Button>
-            </Hint>
-          </div>
-        )}
+        {canvas?.backgroundImage !== undefined &&
+          activeElement?.type !== "image" && (
+            <div className="flex items-cjenter h-full justify-center">
+              <Hint label="Image Background" side="bottom" sideOffset={5}>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={addImage}
+                  className={cn(
+                    canvas?.backgroundImage !== undefined &&
+                      "bg-gray-200 dark:bg-darkHover"
+                  )}
+                >
+                  <TbBackground className="size-4" />
+                </Button>
+              </Hint>
+            </div>
+          )}
         {/* Bring forward */}
         <div className="flex items-center h-full justify-center">
           <Hint label="Bring forward" side="bottom" sideOffset={5}>
