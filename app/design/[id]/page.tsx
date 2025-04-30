@@ -133,7 +133,7 @@ const Design = () => {
         <main className="flex-1 overflow-auto relative flex flex-col">
           {activeElement && isOnline && <Tools />}
           {canvas?.backgroundImage !== undefined && isOnline && (
-            <div className="flex items-center h-full justify-center">
+            <div className="flex items-center h-full mt-2 justify-center">
               <Hint label="Image Background" side="bottom" sideOffset={5}>
                 <Button
                   size="icon"
