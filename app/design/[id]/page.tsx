@@ -13,10 +13,6 @@ import { useActiveElementStore } from "@/store/ActiveEelement";
 import { useCanvas } from "@/store/useCanvas";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { ImSpinner6 } from "react-icons/im";
-import { Hint } from "@/components/global/hint";
-import { Button } from "@/components/ui/button";
-import { TbBackground } from "react-icons/tb";
-import { cn } from "@/lib/utils";
 
 const Design = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -115,16 +111,6 @@ const Design = () => {
     });
   }, [isOnline]);
 
-  const removeBackgroundImage = () => {
-    if (canvas) {
-      // If there is already a background image, remove it
-      if (!canvas) return;
-      canvas.backgroundImage = undefined;
-      canvas?.requestRenderAll();
-      canvas?.discardActiveObject(); // Deselect if needed
-    }
-  };
-
   return (
     <div className="h-full flex flex-col">
       <Header design={design} />
@@ -132,23 +118,6 @@ const Design = () => {
         {isOnline && <Sidebar design={design} />}
         <main className="flex-1 overflow-auto relative flex flex-col">
           {activeElement && isOnline && <Tools />}
-          {canvas?.backgroundImage !== undefined && isOnline && (
-            <div className="flex items-center h-full mt-2 justify-center">
-              <Hint label="Image Background" side="bottom" sideOffset={5}>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={removeBackgroundImage}
-                  className={cn(
-                    canvas?.backgroundImage !== undefined &&
-                      "bg-gray-200 dark:bg-darkHover"
-                  )}
-                >
-                  <TbBackground className="size-4" />
-                </Button>
-              </Hint>
-            </div>
-          )}
           {design === undefined ? (
             <div className="flex justify-center items-center h-[40vh]">
               <ImSpinner6 className="size-10 animate-spin" />
