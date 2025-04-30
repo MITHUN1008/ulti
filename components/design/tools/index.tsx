@@ -21,7 +21,7 @@ import Group from "./Group";
 import ImageFilters from "./ImageFilters";
 import Text from "./Text";
 import ImageRadius from "./ImageRadius";
-import { parseLinearGradientString } from "@/lib/utils";
+import { cn, parseLinearGradientString } from "@/lib/utils";
 
 export const Tools = () => {
   const { setActiveElement, activeElement, activeElements, setActiveElements } =
@@ -96,32 +96,39 @@ export const Tools = () => {
   // This function sets the background image of the canvas to the currently selected image
   const addImage = async () => {
     if (!canvas) return;
+    if (canvas?.backgroundImage === undefined) {
+      // @ts-ignore
+      const imageUrl = activeElement?._originalElement.currentSrc;
+      const image = new Image();
+      image.src = imageUrl;
 
-    // @ts-ignore
-    const imageUrl = activeElement?._originalElement.currentSrc;
-    const image = new Image();
-    image.src = imageUrl;
-
-    image.onload = () => {
-      fabric.FabricImage.fromURL(imageUrl, {
-        crossOrigin: "anonymous",
-      })
-        .then((img) => {
-          // Scale image to fit the canvas size
-          const scaleX = canvas.width! / img.width!;
-          const scaleY = canvas.height! / img.height!;
-          img.scaleX = scaleX;
-          img.scaleY = scaleY;
-
-          canvas.backgroundImage = img;
-          canvas?.requestRenderAll();
-          canvas?.discardActiveObject(); // Deselect if needed
-          // canvas.renderAll();
+      image.onload = () => {
+        fabric.FabricImage.fromURL(imageUrl, {
+          crossOrigin: "anonymous",
         })
-        .catch((e) => {
-          console.error("Error loading image", e);
-        });
-    };
+          .then((img) => {
+            // Scale image to fit the canvas size
+            const scaleX = canvas.width! / img.width!;
+            const scaleY = canvas.height! / img.height!;
+            img.scaleX = scaleX;
+            img.scaleY = scaleY;
+
+            canvas.backgroundImage = img;
+            canvas?.requestRenderAll();
+            canvas?.discardActiveObject(); // Deselect if needed
+            // canvas.renderAll();
+          })
+          .catch((e) => {
+            console.error("Error loading image", e);
+          });
+      };
+    } else {
+      // If there is already a background image, remove it
+      if (!canvas) return;
+      canvas.backgroundImage = undefined;
+      canvas?.requestRenderAll();
+      canvas?.discardActiveObject(); // Deselect if needed
+    }
   };
 
   // lock active object
@@ -279,15 +286,21 @@ export const Tools = () => {
               />
             </div>
             {/* Background */}
-            {canvas?.backgroundImage === undefined && (
-              <div className="flex items-center h-full justify-center">
-                <Hint label="Image Background" side="bottom" sideOffset={5}>
-                  <Button size="icon" variant="ghost" onClick={addImage}>
-                    <TbBackground className="size-4" />
-                  </Button>
-                </Hint>
-              </div>
-            )}
+            <div className="flex items-center h-full justify-center">
+              <Hint label="Image Background" side="bottom" sideOffset={5}>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={addImage}
+                  className={cn(
+                    canvas?.backgroundImage !== undefined &&
+                      "bg-gray-200 dark:bg-darkHover"
+                  )}
+                >
+                  <TbBackground className="size-4" />
+                </Button>
+              </Hint>
+            </div>
           </>
         )}
         {/* Bring forward */}
