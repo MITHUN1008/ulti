@@ -1,7 +1,3 @@
-Sure! Here's a polished **GitHub README** introduction tailored to your Canva clone project, aimed at devs exploring your repo:
-
----
-
 # 🎨 Canva Clone — Built with Next.js, Fabric.js, and Modern Web Stack
 
 Welcome to a **full-featured design editor** inspired by Canva, built from the ground up using cutting-edge web technologies like **Next.js**, **React**, **Tailwind CSS**, **Fabric.js**, **ShadCN UI**, and a host of other powerful tools.
