@@ -4,14 +4,20 @@ import Banner from "@/components/dashboard/Banner";
 import RecentDesigns from "@/components/dashboard/RecentDesigns";
 import Sizes from "@/components/dashboard/Sizes";
 import Offline from "@/components/global/Offline";
+import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { runFireworks } from "@/lib/Confetti";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, redirect } from "next/navigation";
 import { useEffect } from "react";
 
 const DashboardPage = () => {
   const searchParams = useSearchParams();
   const success = searchParams.get("success") || "false";
+  const { data } = useCurrentUser();
+
+  if (!data) {
+    redirect("");
+  }
 
   useEffect(() => {
     if (success === "true") {

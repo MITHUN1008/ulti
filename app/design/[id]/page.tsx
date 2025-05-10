@@ -13,6 +13,7 @@ import { useActiveElementStore } from "@/store/ActiveEelement";
 import { useCanvas } from "@/store/useCanvas";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { ImSpinner6 } from "react-icons/im";
+import { useCurrentUser } from "@/fetch/useCurrentUser";
 
 const Design = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -21,6 +22,11 @@ const Design = () => {
     useActiveElementStore();
   const { isOnline } = useNetworkStatusStore();
   const { id } = useParams();
+  const { data } = useCurrentUser();
+
+  if (!data) {
+    redirect("");
+  }
 
   // const design = {};
   const design = useQuery(api.design.getDesign, { id: id as string });
