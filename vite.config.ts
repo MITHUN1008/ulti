@@ -10,6 +10,8 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   server: {
     port: 8080,
+    host: true,
+    strictPort: true,
   },
   resolve: {
     alias: {
