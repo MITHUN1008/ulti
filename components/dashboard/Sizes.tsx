@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { Button } from "@/components/ui/button";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/src/hooks/useNavigation";
 import * as fabric from "fabric";
 
 const Sizes = () => {

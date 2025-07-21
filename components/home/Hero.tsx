@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { useLoginStore } from "@/store/LoginStore";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/src/hooks/useNavigation";
 
 const Hero = () => {
   const { data } = useCurrentUser();

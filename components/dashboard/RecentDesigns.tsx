@@ -6,7 +6,7 @@ import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { Button } from "@/components/ui/button";
 
 import { useQuery } from "convex/react";
-import Link from "next/link";
+import Link from "@/src/components/ReactLink";
 import Moment from "react-moment";
 import { ImSpinner6 } from "react-icons/im";
 import NoItems from "../global/NoItems";

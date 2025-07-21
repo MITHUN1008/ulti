@@ -1,15 +1,15 @@
-import { DeleteImage } from "@/actions/deleteImage";
+// DeleteImage function removed for React migration
 import { ToolHeader } from "@/components/global/tool-header";
 import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { useCanvas } from "@/store/useCanvas";
-import { UploadButton } from "@/lib/uploadthing";
+import { UploadButton } from "@/src/components/UploadButton";
 import Offline from "@/components/global/Offline";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import Image from "next/image";
+import Image from "@/src/components/ReactImage";
 import { useQuery } from "convex/react";
 import { useTransition } from "react";
 import { MdDelete } from "react-icons/md";
@@ -52,19 +52,14 @@ const Uploads = () => {
 
   // delete image
   const handleDelete = async (image: string) => {
-    startTransition(async () => {
-      try {
-        await DeleteImage({ files: [image] });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        const updatedImages = userImages?.images.filter((img) => img !== image);
-        await updateMutate({
-          id: userImages?._id,
-          images: updatedImages,
-        });
-        toast("Image Deleted");
-      }
+    startTransition(() => {
+      // Simple delete without server action for React migration
+      const updatedImages = userImages?.images.filter((img) => img !== image);
+      updateMutate({
+        id: userImages?._id,
+        images: updatedImages,
+      });
+      toast("Image Deleted");
     });
   };
 
@@ -101,8 +96,8 @@ const Uploads = () => {
         <ToolHeader title="Upload Images" description="Upload Images" />
         <UploadButton
           endpoint="imageUploader"
-          onClientUploadComplete={(res) => {
-            const images = res?.map((file) => file.ufsUrl);
+          onClientUploadComplete={(res: Array<{ ufsUrl: string }>) => {
+            const images = res?.map((file: { ufsUrl: string }) => file.ufsUrl);
             handleUpload(images);
             // console.log("Files: ", res);
             toast("Upload Completed");

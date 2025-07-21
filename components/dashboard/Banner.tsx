@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import Image from "@/src/components/ReactImage";
+import { useSearchParams } from "react-router-dom";
 
 const Banner = () => {
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
   const success = searchParams.get("success") || "false";
   return (
     <div className="dashboard-banner">

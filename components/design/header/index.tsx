@@ -7,8 +7,8 @@ import { api } from "@/convex/_generated/api";
 import PublishModal from "@/components/modal/PublishModal";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 
-import Image from "next/image";
-import Link from "next/link";
+import Image from "@/src/components/ReactImage";
+import Link from "@/src/components/ReactLink";
 import { useState } from "react";
 import { ImSpinner6 } from "react-icons/im";
 import { MdRedo, MdUndo } from "react-icons/md";

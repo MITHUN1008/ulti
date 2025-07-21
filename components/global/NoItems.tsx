@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/src/components/ReactImage";
 
 const NoItems = ({ text }: { text: string }) => {
   return (

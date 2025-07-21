@@ -1,13 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/src/hooks/useNavigation";
 import { FaCrown } from "react-icons/fa";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { createStripeCheckout } from "@/actions/createStripeCheckout";
+// createStripeCheckout removed for React migration
 import { useCurrentUser } from "@/fetch/useCurrentUser";
 import { useLoginStore } from "@/store/LoginStore";
 
@@ -36,19 +36,13 @@ const PricingCard = ({
       return;
     }
     if (isPro) return;
-    startTransition(async () => {
-      try {
-        const userId = user?.data?._id;
-        if (!userId) return;
+    startTransition(() => {
+      const userId = user?.data?._id;
+      if (!userId) return;
 
-        const { url } = await createStripeCheckout(priceName, user?.data);
-        if (url) {
-          router.push(url);
-        }
-      } catch (error) {
-        console.error("Error in handleEnroll:", error);
-        toast.error("Failed to create checkout session");
-      }
+      // Stripe checkout removed for React migration
+      toast.success("Payment feature coming soon!");
+      router.push("/dashboard");
     });
   };
   return (

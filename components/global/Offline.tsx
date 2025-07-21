@@ -2,7 +2,7 @@
 
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 
-import Image from "next/image";
+import Image from "@/src/components/ReactImage";
 
 const Offline = () => {
   const { isOnline } = useNetworkStatusStore();

@@ -6,7 +6,8 @@ import { useCanvas } from "@/store/useCanvas";
 
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useQuery } from "convex/react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "@/src/hooks/useNavigation";
+import { useLocation } from "react-router-dom";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { ImSpinner6 } from "react-icons/im";
 import { useCurrentUser } from "@/fetch/useCurrentUser";
@@ -20,7 +21,8 @@ import { toast } from "sonner";
 const Templates = () => {
   const { canvas } = useCanvas();
   const { isOnline } = useNetworkStatusStore();
-  const pathname = usePathname();
+  const location = useLocation();
+  const pathname = location.pathname;
   const router = useRouter();
   const { data } = useCurrentUser();
   const { setIsLogin } = useLoginStore();
