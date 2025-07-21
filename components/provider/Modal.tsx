@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 
-import LoginModal from "@/components/modal/LoginModal";
-import PlansModal from "@/components/modal/PlansModal";
+import LoginModal from "../modal/LoginModal";
+import PlansModal from "../modal/PlansModal";
 
 export const Modals = () => {
   const [isMounted, setIsMounted] = useState(false);
