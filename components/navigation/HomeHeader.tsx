@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 import { useLoginStore } from "../../store/LoginStore";
 import UserButton from "../global/UserButton";
 
-import Image from "@/src/components/ReactImage";
-import Link from "@/src/components/ReactLink";
+import Image from "../../src/components/ReactImage";
+import Link from "../../src/components/ReactLink";
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { ImSpinner6 } from "react-icons/im";
 
