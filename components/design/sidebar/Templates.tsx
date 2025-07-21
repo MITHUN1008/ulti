@@ -1,21 +1,21 @@
 "use client";
 
 import { api } from "../../../convex/_generated/api";
-import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
-import { useCanvas } from "@/store/useCanvas";
+import { useNetworkStatusStore } from "../../../store/NetworkStatusStore";
+import { useCanvas } from "../../../store/useCanvas";
 
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useQuery } from "convex/react";
-import { useRouter } from "@/src/hooks/useNavigation";
+import { useRouter } from "../../../src/hooks/useNavigation";
 import { useLocation } from "react-router-dom";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "../../../hooks/use-api-mutation";
 import { ImSpinner6 } from "react-icons/im";
-import { useCurrentUser } from "@/fetch/useCurrentUser";
-import { useLoginStore } from "@/store/LoginStore";
-import NoItems from "@/components/global/NoItems";
-import { designProps } from "@/type";
+import { useCurrentUser } from "../../../fetch/useCurrentUser";
+import { useLoginStore } from "../../../store/LoginStore";
+import NoItems from "../../global/NoItems";
+import { designProps } from "../../../type";
 import { FaCrown } from "react-icons/fa";
-import { usePricingStore } from "@/store/PricingStore";
+import { usePricingStore } from "../../../store/PricingStore";
 import { toast } from "sonner";
 
 const Templates = () => {
