@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 // ConvexAuthNextjsServerProvider is for Next.js server components, not needed in React
 
-import { Modals } from "@/components/provider/Modal";
+import { Modals } from "../components/provider/Modal";
 import Toast from "@/components/provider/Toast";
 import { ThemeProvider } from "@/components/provider/ThemeProvider";
 import NetworkStatus from "@/components/provider/NetworkStatus";
