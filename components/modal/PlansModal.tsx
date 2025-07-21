@@ -1,6 +1,6 @@
 import { Dialog, DialogContent } from "../ui/dialog";
-import Pricing from "@/components/home/Pricing";
-import { usePricingStore } from "@/store/PricingStore";
+import Pricing from "../home/Pricing";
+import { usePricingStore } from "../../store/PricingStore";
 
 const PlansModal = () => {
   const { isPricing, setIsPricing } = usePricingStore();
