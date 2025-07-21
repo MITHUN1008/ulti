@@ -1,7 +1,7 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useLoginStore } from "@/store/LoginStore";
-import { Button } from "@/components/ui/button";
-import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
+import { useLoginStore } from "../../store/LoginStore";
+import { Button } from "../ui/button";
+import { useNetworkStatusStore } from "../../store/NetworkStatusStore";
 
 import { useAuthActions } from "@convex-dev/auth/react";
 import Image from "@/src/components/ReactImage";
