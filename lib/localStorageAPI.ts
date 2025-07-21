@@ -1,3 +1,4 @@
+
 // Mock API using localStorage
 export interface Design {
   _id: string;
@@ -67,6 +68,10 @@ class LocalStorageAPI {
     return this.getDesigns();
   }
 
+  getPublishedDesigns(): Design[] {
+    return this.getDesigns().filter(design => design.published);
+  }
+
   updateDesign(id: string, updates: Partial<Design>): void {
     const designs = this.getDesigns();
     const index = designs.findIndex(design => design._id === id);
@@ -75,6 +80,10 @@ class LocalStorageAPI {
       designs[index] = { ...designs[index], ...updates };
       this.saveDesigns(designs);
     }
+  }
+
+  publishDesign(id: string, published: boolean): void {
+    this.updateDesign(id, { published });
   }
 
   deleteDesign(id: string): void {

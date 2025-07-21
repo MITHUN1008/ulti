@@ -1,9 +1,10 @@
+
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { useLoginStore } from "../../store/LoginStore";
 import { Button } from "../ui/button";
 import { useNetworkStatusStore } from "../../store/NetworkStatusStore";
+import { useAuth } from "../provider/AuthProvider";
 
-import { useAuthActions } from "@convex-dev/auth/react";
 import Image from "../../src/components/ReactImage";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -11,23 +12,25 @@ import { MdOutlineMail } from "react-icons/md";
 import { useState } from "react";
 
 const LoginModal = () => {
-  const { signIn } = useAuthActions();
   const { isLogin, setIsLogin } = useLoginStore();
   const { isOnline } = useNetworkStatusStore();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const onProviderSignUp = async (provider: "github" | "google") => {
+  const handleLogin = async (provider: "google" | "github" | "email") => {
     setLoading(true);
-
-    await signIn(provider)
-      .then((res) => {
-        setLoading(false);
-        // console.log(res);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    try {
+      // Simulate login with mock data for demo purposes
+      const email = provider === "google" ? "user@gmail.com" : provider === "github" ? "user@github.com" : "user@email.com";
+      const name = provider === "google" ? "Google User" : provider === "github" ? "GitHub User" : "Email User";
+      
+      login(email, name);
+      setIsLogin(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (isLogin) {
@@ -46,7 +49,7 @@ const LoginModal = () => {
               <Button
                 className="w-full relative"
                 variant={"outline"}
-                onClick={() => onProviderSignUp("google")}
+                onClick={() => handleLogin("google")}
                 disabled={loading || !isOnline}
               >
                 <FcGoogle className="size-5 absolute top-2.5 left-2.5" />
@@ -55,13 +58,18 @@ const LoginModal = () => {
               <Button
                 className="w-full relative"
                 variant={"outline"}
-                onClick={() => onProviderSignUp("github")}
+                onClick={() => handleLogin("github")}
                 disabled={loading || !isOnline}
               >
                 <FaGithub className="size-5 absolute top-2.5 left-2.5" />
                 Continue with Github
               </Button>
-              <Button className="w-full relative" variant={"outline"}>
+              <Button 
+                className="w-full relative" 
+                variant={"outline"}
+                onClick={() => handleLogin("email")}
+                disabled={loading || !isOnline}
+              >
                 <MdOutlineMail className="size-5 absolute top-2.5 left-2.5" />
                 Continue with email
               </Button>

@@ -1,3 +1,4 @@
+
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -14,8 +15,8 @@ import {
 } from "../ui/dropdown-menu";
 import { useCurrentUser } from "../../fetch/useCurrentUser";
 import { usePricingStore } from "../../store/PricingStore";
+import { useAuth } from "../provider/AuthProvider";
 
-import { useAuthActions } from "@convex-dev/auth/react";
 import { useTheme } from "next-themes";
 import { useRouter } from "../../src/hooks/useNavigation";
 import { FaCrown, FaMoon } from "react-icons/fa";
@@ -25,13 +26,13 @@ import { MdLogout, MdOutlinePriceCheck } from "react-icons/md";
 const UserButton = () => {
   const { setTheme, theme } = useTheme();
   const { setIsPricing } = usePricingStore();
-  const { signOut } = useAuthActions();
+  const { logout } = useAuth();
   const router = useRouter();
   const { data } = useCurrentUser();
 
-  const logout = () => {
+  const handleLogout = () => {
     router.push("/");
-    signOut();
+    logout();
   };
 
   return (
@@ -91,7 +92,7 @@ const UserButton = () => {
           <MdOutlinePriceCheck />
           Plans & Pricing
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={logout}>
+        <DropdownMenuItem onClick={handleLogout}>
           <MdLogout />
           Signout
         </DropdownMenuItem>

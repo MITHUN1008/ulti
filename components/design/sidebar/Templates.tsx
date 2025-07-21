@@ -1,22 +1,22 @@
+
 "use client";
 
-import { api } from "../../../convex/_generated/api";
+import { localAPI } from "../../../lib/localStorageAPI";
 import { useNetworkStatusStore } from "../../../store/NetworkStatusStore";
 import { useCanvas } from "../../../store/useCanvas";
 
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { useQuery } from "convex/react";
 import { useRouter } from "../../../src/hooks/useNavigation";
 import { useLocation } from "react-router-dom";
-import { useApiMutation } from "../../../hooks/use-api-mutation";
 import { ImSpinner6 } from "react-icons/im";
 import { useCurrentUser } from "../../../fetch/useCurrentUser";
 import { useLoginStore } from "../../../store/LoginStore";
 import NoItems from "../../global/NoItems";
-import { designProps } from "../../../type";
 import { FaCrown } from "react-icons/fa";
 import { usePricingStore } from "../../../store/PricingStore";
 import { toast } from "sonner";
+import { useState, useEffect } from "react";
+import type { Design } from "../../../lib/localStorageAPI";
 
 const Templates = () => {
   const { canvas } = useCanvas();
@@ -27,53 +27,63 @@ const Templates = () => {
   const { data } = useCurrentUser();
   const { setIsLogin } = useLoginStore();
   const { setIsPricing } = usePricingStore();
+  const [designs, setDesigns] = useState<Design[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [pending, setPending] = useState(false);
 
-  const designs = useQuery(api.design.publishedDesigns);
-  const { mutate, pending } = useApiMutation(api.design.createDesign);
+  useEffect(() => {
+    const loadPublishedDesigns = () => {
+      setLoading(true);
+      // Get all designs and filter for published ones
+      const allDesigns = localAPI.getAllDesigns();
+      const publishedDesigns = allDesigns.filter(design => design.published);
+      setDesigns(publishedDesigns);
+      setLoading(false);
+    };
+    
+    loadPublishedDesigns();
+  }, []);
 
   if (!isOnline) {
     return null;
   }
 
-  const handleSelect = async (design: designProps) => {
+  const handleSelect = async (design: Design) => {
     if (!data) {
       setIsLogin(true);
-      return;
-    }
-    if (design.userId === data?._id) {
-      toast.error("You cannot use your own design");
       return;
     }
     if (design.isPro && !data?.isPro) {
       setIsPricing(true);
       return;
     }
-    if (pathname === "/") {
-      await mutate({
-        title: "untitled design",
-        json: design.json,
-        height: design.height,
-        width: design.width,
-        isPro: false,
-        category: "",
-        published: false,
-      })
-        .then((id) => {
-          // console.log(id);
-          router.push(`/design/${id}`);
-        })
-        .catch((error) => {
-          console.log(error);
+    
+    setPending(true);
+    try {
+      if (pathname === "/") {
+        const newId = localAPI.createDesign({
+          title: "untitled design",
+          json: design.json,
+          height: design.height,
+          width: design.width,
+          isPro: false,
+          category: "",
+          published: false,
         });
-    } else {
-      if (!canvas) return;
-      canvas
-        .loadFromJSON(design.json)
-        .then((canvas) => canvas.requestRenderAll())
-        .catch((error) => {
-          console.error("Error loading JSON:", error);
-          // Handle the error as needed, e.g., show an error message to the user
-        });
+        router.push(`/design/${newId}`);
+      } else {
+        if (!canvas) return;
+        canvas
+          .loadFromJSON(design.json)
+          .then((canvas) => canvas.requestRenderAll())
+          .catch((error) => {
+            console.error("Error loading JSON:", error);
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPending(false);
     }
   };
 
@@ -87,7 +97,7 @@ const Templates = () => {
         invitation.
       </p>
       {designs?.length === 0 && <NoItems text="No Published Projects" />}
-      {designs === undefined ? (
+      {loading ? (
         <div className="flex justify-center items-center h-[40vh]">
           <ImSpinner6 className="size-10 animate-spin" />
         </div>

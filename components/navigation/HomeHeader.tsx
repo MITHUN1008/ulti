@@ -1,18 +1,19 @@
+
 "use client";
 
 import { Button } from "../ui/button";
 import { useLoginStore } from "../../store/LoginStore";
 import UserButton from "../global/UserButton";
+import { useAuth } from "../provider/AuthProvider";
 
 import Image from "../../src/components/ReactImage";
 import Link from "../../src/components/ReactLink";
-import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { ImSpinner6 } from "react-icons/im";
 
 const HomeHeader = () => {
   const { setIsLogin } = useLoginStore();
+  const { user, isLoading } = useAuth();
 
-  // console.log(data);
   return (
     <div className="header">
       <Link href={"/"}>
@@ -25,24 +26,24 @@ const HomeHeader = () => {
         />
       </Link>
       <div className="flex gap-2">
-        <AuthLoading>
+        {isLoading ? (
           <ImSpinner6 className="size-7 animate-spin" />
-        </AuthLoading>
-        <Unauthenticated>
-          <Button
-            variant={"outline"}
-            onClick={() => setIsLogin(true)}
-            className="hover:dark:bg-dark dark:bg-dark/10"
-          >
-            Login
-          </Button>
-          <Button className="text-white" onClick={() => setIsLogin(true)}>
-            Sign up
-          </Button>
-        </Unauthenticated>
-        <Authenticated>
+        ) : user ? (
           <UserButton />
-        </Authenticated>
+        ) : (
+          <>
+            <Button
+              variant={"outline"}
+              onClick={() => setIsLogin(true)}
+              className="hover:dark:bg-dark dark:bg-dark/10"
+            >
+              Login
+            </Button>
+            <Button className="text-white" onClick={() => setIsLogin(true)}>
+              Sign up
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
