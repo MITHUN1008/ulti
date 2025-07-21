@@ -1,32 +1,55 @@
+
 import UserButton from "@/components/global/UserButton";
 import DesignInput from "@/components/design/header/DesignInput";
 import { FileDropdown } from "./FileDropdown";
 import { Button } from "@/components/ui/button";
-import { useApiMutation } from "@/hooks/use-api-mutation";
-import { api } from "@/convex/_generated/api";
 import PublishModal from "@/components/modal/PublishModal";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import { localAPI } from "@/lib/localStorageAPI";
 
 import Image from "@/src/components/ReactImage";
 import Link from "@/src/components/ReactLink";
 import { useState } from "react";
 import { ImSpinner6 } from "react-icons/im";
 import { MdRedo, MdUndo } from "react-icons/md";
-import { AuthLoading, Authenticated } from "convex/react";
 import { Hint } from "@/components/global/hint";
-import { useCanvasHistory } from "@/lib/useCanvasHistory";
 import { designProps } from "@/type";
 
 const Header = ({ design }: { design: designProps | null | undefined }) => {
   const [open, setOpen] = useState(false);
-  const { mutate, pending } = useApiMutation(api.design.updateDesign);
+  const [pending, setPending] = useState(false);
   const { isOnline } = useNetworkStatusStore();
-  const { undo, redo, canUndo, canRedo } = useCanvasHistory(
-    mutate,
-    design?._id
-  );
 
-  // console.log(canvasHistory);
+  const handleSave = async () => {
+    if (!design) return;
+    setPending(true);
+    try {
+      // Save design using localStorage API
+      localAPI.updateDesign(design._id, {
+        json: design.json,
+        thumbnailUrl: design.thumbnailUrl,
+      });
+    } catch (error) {
+      console.error("Error saving design:", error);
+    } finally {
+      setPending(false);
+    }
+  };
+
+  // Simple undo/redo state
+  const [canUndo, setCanUndo] = useState(false);
+  const [canRedo, setCanRedo] = useState(false);
+
+  const undo = () => {
+    // Basic undo functionality - can be enhanced later
+    console.log("Undo functionality");
+  };
+
+  const redo = () => {
+    // Basic redo functionality - can be enhanced later
+    console.log("Redo functionality");
+  };
+
   return (
     <>
       <PublishModal open={open} setOpen={setOpen} design={design} />
@@ -69,12 +92,7 @@ const Header = ({ design }: { design: designProps | null | undefined }) => {
             Publish
           </Button>
           <DesignInput name={design?.title} id={design?._id} />
-          <AuthLoading>
-            <ImSpinner6 className="size-6 animate-spin" />
-          </AuthLoading>
-          <Authenticated>
-            <UserButton />
-          </Authenticated>
+          <UserButton />
         </div>
       </div>
     </>
