@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "../ui/dialog";
 import Pricing from "@/components/home/Pricing";
 import { usePricingStore } from "@/store/PricingStore";
 
