@@ -8,13 +8,6 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === 'development' && componentTagger(),
   ].filter(Boolean),
-  server: {
-    host: true,
-    port: 8080,
-    hmr: {
-      clientPort: 8080,
-    },
-  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '.'),
