@@ -1,4 +1,4 @@
-import HomeHeader from "@/components/navigation/HomeHeader";
+import HomeHeader from "../../components/navigation/HomeHeader";
 
 const DashboardPage = () => {
   return (
