@@ -9,10 +9,10 @@ export default defineConfig(({ mode }) => ({
     mode === 'development' && componentTagger(),
   ].filter(Boolean),
   server: {
-    host: "::",
+    host: true,
     port: 8080,
     hmr: {
-      port: 8080,
+      clientPort: 8080,
     },
   },
   resolve: {
