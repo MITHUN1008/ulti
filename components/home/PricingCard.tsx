@@ -1,15 +1,15 @@
 "use client";
 
-import { useRouter } from "@/src/hooks/useNavigation";
+import { useRouter } from "../../src/hooks/useNavigation";
 import { FaCrown } from "react-icons/fa";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from "../../lib/utils";
+import { Button } from "../ui/button";
 // createStripeCheckout removed for React migration
-import { useCurrentUser } from "@/fetch/useCurrentUser";
-import { useLoginStore } from "@/store/LoginStore";
+import { useCurrentUser } from "../../fetch/useCurrentUser";
+import { useLoginStore } from "../../store/LoginStore";
 
 const PricingCard = ({
   description,
