@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "../ui/button";
-import { useLoginStore } from "@/store/LoginStore";
+import { useLoginStore } from "../../store/LoginStore";
 import UserButton from "@/components/global/UserButton";
 
 import Image from "@/src/components/ReactImage";
