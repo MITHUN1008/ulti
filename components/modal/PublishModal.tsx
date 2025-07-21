@@ -1,9 +1,9 @@
+
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { api } from "@/convex/_generated/api";
-import { useApiMutation } from "@/hooks/use-api-mutation";
 import { Button } from "@/components/ui/button";
 import { designProps } from "@/type";
+import { localAPI } from "@/lib/localStorageAPI";
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -20,26 +20,25 @@ const PublishModal = ({
   if (!design) return null;
   const [pro, setIspro] = useState(design?.isPro);
   const [publish, setIsPublished] = useState(design?.published);
+  const [pending, setPending] = useState(false);
 
-  const { mutate, pending } = useApiMutation(api.design.publish);
-  //   console.log(title, name);
   useEffect(() => {}, [publish, pro]);
 
   const handlePublish = async () => {
-    // console.log(publish, pro);
-    await mutate({
-      id: design?._id,
-      published: publish,
-      isPro: pro,
-    })
-      .then(() => {
-        toast.success("Published");
-        setOpen(false);
-      })
-      .catch((error) => {
-        toast.error("Something Went Wrong");
-        console.log(error);
+    setPending(true);
+    try {
+      localAPI.updateDesign(design._id, {
+        published: publish,
+        isPro: pro,
       });
+      toast.success("Published");
+      setOpen(false);
+    } catch (error) {
+      toast.error("Something Went Wrong");
+      console.log(error);
+    } finally {
+      setPending(false);
+    }
   };
 
   return (

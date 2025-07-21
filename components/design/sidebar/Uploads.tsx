@@ -1,17 +1,12 @@
-// DeleteImage function removed for React migration
+
 import { ToolHeader } from "@/components/global/tool-header";
 import { Button } from "@/components/ui/button";
-import { api } from "@/convex/_generated/api";
-import { useApiMutation } from "@/hooks/use-api-mutation";
 import { useCanvas } from "@/store/useCanvas";
-import { UploadButton } from "@/src/components/UploadButton";
 import Offline from "@/components/global/Offline";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import Image from "@/src/components/ReactImage";
-import { useQuery } from "convex/react";
-import { useTransition } from "react";
+import { useTransition, useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 import * as fabric from "fabric";
@@ -22,43 +17,50 @@ const Uploads = () => {
   const { canvas } = useCanvas();
   const { isOnline } = useNetworkStatusStore();
   const [deletePending, startTransition] = useTransition();
-  const userImages = useQuery(api.images.getImages);
-  const { mutate, pending } = useApiMutation(api.images.createImages);
-  const { mutate: updateMutate, pending: updatePending } = useApiMutation(
-    api.images.updateImages
-  );
-  // console.log(userImages?.images);
+  const [userImages, setUserImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    const loadImages = () => {
+      setLoading(true);
+      const images = localStorage.getItem('userImages');
+      setUserImages(images ? JSON.parse(images) : []);
+      setLoading(false);
+    };
+    
+    loadImages();
+  }, []);
+
   if (!isOnline) {
     return <Offline />;
   }
 
   const handleUpload = async (images: string[]) => {
-    // console.log("Images: ", images);
     if (!images || images.length === 0) {
       toast.error("No images uploaded");
       return;
     }
-    if (userImages === null) {
-      await mutate({
-        images: images,
-      });
-    } else {
-      await updateMutate({
-        id: userImages?._id,
-        images: [...(userImages?.images || []), ...images],
-      });
+    
+    setPending(true);
+    try {
+      const updatedImages = [...userImages, ...images];
+      localStorage.setItem('userImages', JSON.stringify(updatedImages));
+      setUserImages(updatedImages);
+      toast.success("Upload Completed");
+    } catch (error) {
+      toast.error("Upload Failed");
+      console.log(error);
+    } finally {
+      setPending(false);
     }
   };
 
-  // delete image
   const handleDelete = async (image: string) => {
     startTransition(() => {
-      // Simple delete without server action for React migration
-      const updatedImages = userImages?.images.filter((img) => img !== image);
-      updateMutate({
-        id: userImages?._id,
-        images: updatedImages,
-      });
+      const updatedImages = userImages.filter((img) => img !== image);
+      localStorage.setItem('userImages', JSON.stringify(updatedImages));
+      setUserImages(updatedImages);
       toast("Image Deleted");
     });
   };
@@ -66,7 +68,6 @@ const Uploads = () => {
   const addToCanvas = (image: string) => {
     fabric.FabricImage.fromURL(image, { crossOrigin: "anonymous" })
       .then((img) => {
-        // Make sure image has loaded dimensions
         const clipPath = new fabric.Rect({
           width: img.width!,
           height: img.height!,
@@ -90,49 +91,45 @@ const Uploads = () => {
       });
   };
 
+  // Mock file input for demo purposes
+  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      const imageUrls = fileArray.map(file => URL.createObjectURL(file));
+      handleUpload(imageUrls);
+    }
+  };
+
   return (
     <ScrollArea className="h-[70vh]">
       <div className="flex flex-col w-full">
         <ToolHeader title="Upload Images" description="Upload Images" />
-        <UploadButton
-          endpoint="imageUploader"
-          onClientUploadComplete={(res: Array<{ ufsUrl: string }>) => {
-            const images = res?.map((file: { ufsUrl: string }) => file.ufsUrl);
-            handleUpload(images);
-            // console.log("Files: ", res);
-            toast("Upload Completed");
-          }}
-          onUploadError={(error: Error) => {
-            // Do something with the error.
-            toast.error("Upload Failed");
-            console.log(`ERROR! ${error.message}`);
-          }}
-          // className="w-[400px]"
-          appearance={{
-            button:
-              "bg-primary ut-ready:bg-primary ut-uploading:cursor-not-allowed rounded-md bg-none after:bg-primary/20 w-[370px]",
-            container:
-              "w-max flex space-y-2 mt-2 rounded-md border-cyan-300 bg-slate-800",
-            allowedContent:
-              "flex h-8 flex-col items-center justify-center px-2 text-white",
-          }}
-          disabled={pending || updatePending}
-        />
+        <div className="mt-2">
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFileInput}
+            disabled={pending}
+            className="w-full p-2 border rounded-md"
+          />
+        </div>
         <ToolHeader
           title="Images"
           description="Choose an image to add to your canvas"
         />
-        {userImages?.images.length === 0 && (
+        {userImages.length === 0 && (
           <NoItems text="No Images to Show" />
         )}
-        {userImages === undefined ? (
+        {loading ? (
           <div className="flex justify-center items-center h-[40vh]">
             <ImSpinner6 className="size-10 animate-spin" />
           </div>
         ) : (
           <div className="image-grid">
-            {userImages?.images.map((image) => (
-              <div key={image} className="relative cursor-pointer hover:p-1">
+            {userImages.map((image, index) => (
+              <div key={index} className="relative cursor-pointer hover:p-1">
                 <img
                   src={image}
                   alt="image"
@@ -143,7 +140,7 @@ const Uploads = () => {
                   variant="destructive"
                   onClick={() => handleDelete(image)}
                   className="absolute top-2 right-2 size-8"
-                  disabled={pending || updatePending || deletePending}
+                  disabled={pending || deletePending}
                 >
                   <MdDelete className="size-8" />
                 </Button>
