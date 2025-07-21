@@ -1,38 +1,53 @@
 "use client";
 
-import { api } from "@/convex/_generated/api";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { localAPI } from "@/lib/localStorageAPI";
 import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
 import { Button } from "@/components/ui/button";
-
-import { useQuery } from "convex/react";
 import Link from "@/src/components/ReactLink";
 import Moment from "react-moment";
 import { ImSpinner6 } from "react-icons/im";
 import NoItems from "../global/NoItems";
+import { useState, useEffect } from "react";
+import type { Design } from "@/lib/localStorageAPI";
 
 const RecentDesigns = () => {
   const { isOnline } = useNetworkStatusStore();
-  const { mutate, pending } = useApiMutation(api.design.deleteDesign);
-  const designs = useQuery(api.design.designs);
+  const [pending, setPending] = useState(false);
+  const [designs, setDesigns] = useState<Design[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadDesigns = () => {
+      setLoading(true);
+      const allDesigns = localAPI.getAllDesigns();
+      setDesigns(allDesigns);
+      setLoading(false);
+    };
+    
+    loadDesigns();
+  }, []);
 
   if (!isOnline) {
     return null;
   }
 
   const HandleDelete = async (id: string) => {
-    await mutate({
-      id,
-    }).catch((error) => {
+    setPending(true);
+    try {
+      localAPI.deleteDesign(id);
+      setDesigns(designs.filter(design => design._id !== id));
+    } catch (error) {
       console.log(error);
-    });
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
     <div className="space-y-4 pt-10">
       <h1 className="font-bold text-xl">Recent Designs</h1>
       {designs?.length === 0 && <NoItems text="Possibilities await!" />}
-      {designs === undefined ? (
+      {loading ? (
         <div className="flex justify-center items-center h-[40vh]">
           <ImSpinner6 className="size-10 animate-spin" />
         </div>

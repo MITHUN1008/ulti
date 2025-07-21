@@ -3,17 +3,16 @@
 import SizeCard from "@/components/dashboard/SizeCard";
 import { useNetworkStatusStore } from "../../store/NetworkStatusStore";
 import { designTypes } from "@/type/types";
-import { api } from "@/convex/_generated/api";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { localAPI } from "@/lib/localStorageAPI";
 import { Button } from "@/components/ui/button";
-
 import { useRouter } from "@/src/hooks/useNavigation";
 import * as fabric from "fabric";
+import { useState } from "react";
 
 const Sizes = () => {
   const { isOnline } = useNetworkStatusStore();
   const router = useRouter();
-  const { mutate, pending } = useApiMutation(api.design.createDesign);
+  const [pending, setPending] = useState(false);
 
   if (!isOnline) {
     return null;
@@ -22,26 +21,27 @@ const Sizes = () => {
     <div className="sizes-grid">
       {designTypes.map((design, i) => {
         const handleClick = async () => {
-          await mutate({
-            title: "untitled design",
-            json: {
-              version: fabric.version,
-              objects: [],
-              background: "#f0f0f0",
-            },
-            height: design.height,
-            width: design.width,
-            isPro: false,
-            category: "",
-            published: false,
-          })
-            .then((id) => {
-              // console.log(id);
-              router.push(`/design/${id}`);
-            })
-            .catch((error) => {
-              console.log(error);
+          setPending(true);
+          try {
+            const id = localAPI.createDesign({
+              title: "untitled design",
+              json: {
+                version: fabric.version,
+                objects: [],
+                background: "#f0f0f0",
+              },
+              height: design.height,
+              width: design.width,
+              isPro: false,
+              category: "",
+              published: false,
             });
+            router.push(`/design/${id}`);
+          } catch (error) {
+            console.log(error);
+          } finally {
+            setPending(false);
+          }
         };
 
         return (

@@ -1,11 +1,16 @@
-import { useQuery } from "convex/react";
-
-import { api } from "../convex/_generated/api";
+import { useState, useEffect } from "react";
+import { localAPI, type User } from "../lib/localStorageAPI";
 
 export const useCurrentUser = () => {
-  const data = useQuery(api.users.currentUser);
+  const [data, setData] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isLoading = data === undefined;
+  useEffect(() => {
+    setIsLoading(true);
+    const user = localAPI.getCurrentUserData();
+    setData(user);
+    setIsLoading(false);
+  }, []);
 
   return { data, isLoading };
 };
