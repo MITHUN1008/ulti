@@ -1,7 +1,7 @@
-import Templates from "@/components/design/sidebar/Templates";
-import Hero from "@/components/home/Hero";
-import Pricing from "@/components/home/Pricing";
-import HomeHeader from "@/components/navigation/HomeHeader";
+import Templates from "../../components/design/sidebar/Templates";
+import Hero from "../../components/home/Hero";
+import Pricing from "../../components/home/Pricing";
+import HomeHeader from "../../components/navigation/HomeHeader";
 
 export default function HomePage() {
   return (
