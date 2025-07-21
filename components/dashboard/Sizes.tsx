@@ -1,7 +1,7 @@
 "use client";
 
 import SizeCard from "@/components/dashboard/SizeCard";
-import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import { useNetworkStatusStore } from "../../store/NetworkStatusStore";
 import { designTypes } from "@/type/types";
 import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";

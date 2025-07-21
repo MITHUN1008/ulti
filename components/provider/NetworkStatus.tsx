@@ -1,6 +1,6 @@
 "use client";
 
-import { useNetworkStatusStore } from "@/store/NetworkStatusStore";
+import { useNetworkStatusStore } from "../../store/NetworkStatusStore";
 
 import { useEffect, useState } from "react";
 import { IoCloudOfflineOutline } from "react-icons/io5";
