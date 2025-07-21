@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -11,13 +11,13 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useCurrentUser } from "@/fetch/useCurrentUser";
-import { usePricingStore } from "@/store/PricingStore";
+} from "../ui/dropdown-menu";
+import { useCurrentUser } from "../../fetch/useCurrentUser";
+import { usePricingStore } from "../../store/PricingStore";
 
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useTheme } from "next-themes";
-import { useRouter } from "@/src/hooks/useNavigation";
+import { useRouter } from "../../src/hooks/useNavigation";
 import { FaCrown, FaMoon } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";
 import { MdLogout, MdOutlinePriceCheck } from "react-icons/md";
