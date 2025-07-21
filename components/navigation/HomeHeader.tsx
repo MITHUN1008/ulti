@@ -2,7 +2,7 @@
 
 import { Button } from "../ui/button";
 import { useLoginStore } from "../../store/LoginStore";
-import UserButton from "@/components/global/UserButton";
+import UserButton from "../global/UserButton";
 
 import Image from "@/src/components/ReactImage";
 import Link from "@/src/components/ReactLink";
