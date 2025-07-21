@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { useNetworkStatusStore } from "../../store/NetworkStatusStore";
 
 import { useAuthActions } from "@convex-dev/auth/react";
-import Image from "@/src/components/ReactImage";
+import Image from "../../src/components/ReactImage";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
