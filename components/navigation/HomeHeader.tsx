@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import { useLoginStore } from "@/store/LoginStore";
 import UserButton from "@/components/global/UserButton";
 
